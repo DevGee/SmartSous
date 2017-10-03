@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import TestComponent from '../components/TestComponent/TestComponent';
 
 const styles = StyleSheet.create({
   container: {
@@ -7,19 +8,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 80,
-    marginBottom: 30,
   },
 });
 
 class TestScreen extends Component {
+  constructor() {
+    super();
+    this.state = {
+      test: 'test',
+    };
+  }
   static navigationOptions = {
-    title: 'Test Screen',
+    title: 'Second Screen',
   };
   render() {
     return (
-      <View>
-        <Text>Testing second screen</Text>
+      <View style={styles.container}>
+        <Text>Testing second screen with CSS</Text>
+        <Text>{this.state.test}</Text>
+        <TestComponent name='Steven'/>
       </View>
     );
   }
