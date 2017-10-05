@@ -29,7 +29,7 @@ load_data['recipe'] = []
 #    load_data = json.load(outfile)
 #    outfile.close()
 
-for i in range(0,51):
+for i in range(0,6):
     #scrape_me = scrape_me('http://allrecipes.com/recipe/162760/fluffy-pancakes/')
     #url = ''
     #url = str('http://allrecipes.com/recipe/' + str(7000 + i) + '/')
@@ -49,7 +49,7 @@ for i in range(0,51):
         #print('could not access recipe ' + i)
         pass
     
-    #time.sleep(0.5)
+    time.sleep(2)
 
 
 #with open('recipe-data.json', 'a') as outfile:
