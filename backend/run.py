@@ -1,4 +1,5 @@
 from flask import Flask
+from routes import test_get
 app = Flask(__name__)
 
 @app.route('/')
