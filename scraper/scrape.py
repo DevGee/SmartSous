@@ -25,16 +25,16 @@ load_data['recipe'] = []
 #data[scrape_me.title()] = []
 #data[scrape_me.title()].append({ 
 
-#with open('recipe-data2.json') as outfile:
-#    load_data = json.load(outfile)
-#    outfile.close()
+with open('recipe-data3.json') as outfile:
+    load_data = json.load(outfile)
+    outfile.close()
 
-for i in range(0,2):
+for i in range(0,50):
     #scrape_me = scrape_me('http://allrecipes.com/recipe/162760/fluffy-pancakes/')
     #url = ''
     #url = str('http://allrecipes.com/recipe/' + str(7000 + i) + '/')
     #print(url)
-    urlnum = str(25320 + i)
+    urlnum = str(25950 + i)
     try:
         recipe = scrape_me(str('http://allrecipes.com/recipe/' + urlnum + '/'))
         load_data['recipe'].append({
@@ -44,16 +44,16 @@ for i in range(0,2):
             'instr': recipe.instructions(),
             'urlnum': urlnum 
         })
-        print(recipe.title())
+        #print(recipe.title())
     except:
         #print('could not access recipe ' + i)
         pass
     
-    time.sleep(2)
+    time.sleep(5)
 
 
 #with open('recipe-data.json', 'a') as outfile:
-with open('recipe-data4.json', 'w') as outfile2:
+with open('recipe-data3.json', 'w') as outfile2:
     #load_data = json.load(outfile)
     #load_data['recipe'].append
     outfile2.write(json.dumps(load_data))
