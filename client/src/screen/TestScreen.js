@@ -19,7 +19,7 @@ class TestScreen extends Component {
     };
   }
   static navigationOptions = {
-    title: 'Second Screen'
+    title: 'Second Screen',
   };
   render() {
     return (
