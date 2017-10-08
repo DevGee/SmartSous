@@ -1,16 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Main from './screen/Main';
-
+import { createRootNavigator } from './config/router';
+import { isSignedIn } from './config/auth';
 
 class Index extends React.Component {
-  constructor() {
-    super();
-    this.name = 'Steven';
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      signedIn: false,
+      checkSignIn: false,
+    };
   }
   render() {
+    const Layout = createRootNavigator(this.state.signedIn);
     return (
-      <Main/>
+      <Layout/>
     );
   }
 }
