@@ -13,6 +13,7 @@ const SignIn = ({ navigation }) => {
         <FormInput/>
 
         <Button
+          title='Enter'
           onPress={() => navigation.navigate('SignedIn')}
         />
       </Card>

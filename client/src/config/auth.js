@@ -17,7 +17,7 @@ export const onSignOut = () => {
   console.log('handle sign out');
   // Axios post request for sign out
   // axios.get('http://198.199.98.149:5000')
-  //   .then((response) => {
+  //   .then((response) => {i
   //     console.log(response.data);
   //   })
   //   .catch((err) => {
