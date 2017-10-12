@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 
 class Profile extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       status: 'here',
     };
@@ -21,7 +21,6 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <Text>{this.state.status}</Text>
-        <Button/>
       </View>
     );
   }
