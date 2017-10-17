@@ -7,6 +7,7 @@ import SignIn from '../screen/SignIn';
 import Home from '../screen/Home';
 import Profile from '../screen/Profile';
 import Recipes from '../screen/Recipes';
+import Fridge from '../screen/Fridge';
 
 export const SignedOut = StackNavigator({
   SignUp: {
@@ -41,6 +42,12 @@ export const SignedIn = TabNavigator(
       screen: Recipes,
       navigationOptions: {
         tabBarLabel: 'Recipes',
+      },
+    },
+    Fridge: {
+      screen: Fridge,
+      navigationOptions: {
+        tabBarLabel: 'Fridge',
       },
     },
   },
