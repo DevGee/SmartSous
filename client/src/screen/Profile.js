@@ -21,19 +21,10 @@ class Profile extends Component {
     };
   }
   componentDidMount() {
-    this.getTest();
+
   }
   getTest() {
-    axios.get('http://198.199.98.149:5000/api/test')
-      .then((response) => {
-        console.log(response.data);
-        this.setState({
-          text: response.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
   }
   render() {
     return (
@@ -42,8 +33,6 @@ class Profile extends Component {
         <Text>{this.state.text}</Text>
         <Button
           title='Logout'
-          onPress={this.getTest()}
-          color='green'
          />
       </View>
     );

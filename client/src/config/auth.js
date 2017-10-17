@@ -23,4 +23,5 @@ export const onSignOut = () => {
   //   .catch((err) => {
   //     console.log(err);
   //   });
+  return false;
 };
