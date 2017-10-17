@@ -2,23 +2,33 @@ import React from 'react';
 
 import { ActivityIndicator, FlatList, ListView, StyleSheet, Text, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import RecipeRow from '../components/RecipeRow/RecipeRow';
+import axios from 'axios';
 
 class Recipes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
+      isLoadingMore: false,
       data: null,
+      dataAfter : '',
     };
+  }
+  getData() {
+    axios.get('http://198.199.98.149:5000/api/test')
+    .then((response) => {
+      console.log(response.data);
+      this.setState({
+        text: response.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+  getMoreData() {
+
   }
   componentDidMount() {
 
@@ -37,19 +47,29 @@ class Recipes extends React.Component {
       //   dataSource={this.state.data}
       //   renderRow={rowData => <Text>{rowData}</Text>}
       // />
-      <List>
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <ListItem
-            
-            />
+            <RecipeRow title= time= size= type=/>
           )}
+          onEndReached={() =>
+            this.setState({ isLoadingMore: true }, () => this.getMoreData())}
+            ListFooterComponent={() => {
+              return ();
+            }}
+          keyExtractor={(item, index) => index}
         />
-      </List>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 1,
+    backgroundColor: '#607D8B',
+    width: '100%',
+  },
+});
 
 export default Recipes;
 
