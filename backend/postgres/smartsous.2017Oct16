@@ -1,0 +1,449 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.9
+-- Dumped by pg_dump version 9.5.9
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: smartsous; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE smartsous IS 'default administrative connection database';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: food_itm; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE food_itm AS (
+	name text,
+	count integer,
+	price numeric
+);
+
+
+ALTER TYPE food_itm OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: comm; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE comm (
+    comm_id integer NOT NULL,
+    comm_name text NOT NULL,
+    fr_id integer
+);
+
+
+ALTER TABLE comm OWNER TO postgres;
+
+--
+-- Name: comm_comm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE comm_comm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE comm_comm_id_seq OWNER TO postgres;
+
+--
+-- Name: comm_comm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE comm_comm_id_seq OWNED BY comm.comm_id;
+
+
+--
+-- Name: fridge; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE fridge (
+    fr_id integer NOT NULL,
+    inv text[],
+    price numeric DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE fridge OWNER TO postgres;
+
+--
+-- Name: fridge_fr_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE fridge_fr_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE fridge_fr_id_seq OWNER TO postgres;
+
+--
+-- Name: fridge_fr_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE fridge_fr_id_seq OWNED BY fridge.fr_id;
+
+
+--
+-- Name: fridge_recipe; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE fridge_recipe (
+    fr_id integer NOT NULL,
+    rec_id integer NOT NULL
+);
+
+
+ALTER TABLE fridge_recipe OWNER TO postgres;
+
+--
+-- Name: recipe; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE recipe (
+    rec_id integer NOT NULL,
+    rec_name text NOT NULL,
+    cook_time integer,
+    ingred text[],
+    instr text[],
+    pic_url text,
+    servings integer
+);
+
+
+ALTER TABLE recipe OWNER TO postgres;
+
+--
+-- Name: recipe_rec_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE recipe_rec_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE recipe_rec_id_seq OWNER TO postgres;
+
+--
+-- Name: recipe_rec_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE recipe_rec_id_seq OWNED BY recipe.rec_id;
+
+
+--
+-- Name: usr; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE usr (
+    usr_id integer NOT NULL,
+    firstname text NOT NULL,
+    lastname text NOT NULL,
+    usrname text NOT NULL,
+    email text,
+    fr_id integer
+);
+
+
+ALTER TABLE usr OWNER TO postgres;
+
+--
+-- Name: usr_comm; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE usr_comm (
+    usr_id integer NOT NULL,
+    comm_id integer NOT NULL
+);
+
+
+ALTER TABLE usr_comm OWNER TO postgres;
+
+--
+-- Name: usr_usr_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE usr_usr_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE usr_usr_id_seq OWNER TO postgres;
+
+--
+-- Name: usr_usr_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE usr_usr_id_seq OWNED BY usr.usr_id;
+
+
+--
+-- Name: comm_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY comm ALTER COLUMN comm_id SET DEFAULT nextval('comm_comm_id_seq'::regclass);
+
+
+--
+-- Name: fr_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fridge ALTER COLUMN fr_id SET DEFAULT nextval('fridge_fr_id_seq'::regclass);
+
+
+--
+-- Name: rec_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recipe ALTER COLUMN rec_id SET DEFAULT nextval('recipe_rec_id_seq'::regclass);
+
+
+--
+-- Name: usr_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usr ALTER COLUMN usr_id SET DEFAULT nextval('usr_usr_id_seq'::regclass);
+
+
+--
+-- Data for Name: comm; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY comm (comm_id, comm_name, fr_id) FROM stdin;
+1	devG	1
+\.
+
+
+--
+-- Name: comm_comm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('comm_comm_id_seq', 2, true);
+
+
+--
+-- Data for Name: fridge; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY fridge (fr_id, inv, price) FROM stdin;
+1	{{3,Apple},{6,Steak},{1,Spaghetti}}	0
+2	{{4,Ham},{2,Bread},{1,Pizza}}	0
+\.
+
+
+--
+-- Name: fridge_fr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('fridge_fr_id_seq', 2, true);
+
+
+--
+-- Data for Name: fridge_recipe; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY fridge_recipe (fr_id, rec_id) FROM stdin;
+1	4
+2	5
+\.
+
+
+--
+-- Data for Name: recipe; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY recipe (rec_id, rec_name, cook_time, ingred, instr, pic_url, servings) FROM stdin;
+4	Salt and Pepper Ribeye	30	{"8 ounce ribeye","1 tablespoon butter","vegetable oil","1/2 teaspoon ground black pepper"}	{"Two days before cooking, salt both sides of each steak with 1/2 teaspoon Diamond Crystal(R) Kosher Salt per steak. Place steaks in an airtight container and refrigerate until ready to cook.","Remove the steaks from the refrigerator about 30 minutes prior to cooking. Sprinkle both sides of steak with black pepper.","Heat cast iron pan over medium-high heat until very hot. Add vegetable oil and heat until oil shimmers.","Carefully place steaks in pan. Cook until brown and hard-seared on one side, 4 to 5 minutes.","Turn steaks and top with one teaspoon butter. Cook for 3 to 4 more minutes or to desired doneness. You may need to cook the steaks in batches depending on the size of your cast iron pan. Keep the cooked steaks in a 170 degree F oven until ready to serve."}	http://images.media-allrecipes.com/userphotos/1730860.jpg	1
+5	Pumpkin Pie	60	{"1 egg","1 tablespoon all-purpose flour","3/4 cup white sugar","1/2 teaspoon salt","1 1/2 cups pumpkin puree","1 1/2 cups evaporated milk","1/2 teaspoon ground cinnamon","1/2 teaspoon ground ginger","1/4 teaspoon ground nutmeg","2 tablespoons light corn syrup","1 recipe pastry for a 9 inch single crust pie"}	{"Preheat oven to 450 degrees F (230 degrees C).","Add the sugar gradually to the pumpkin puree. Beat well an stir in the flour, salt and spices. Stir in the corn syrup and beat well. Stir in the slightly beaten egg, then slowly add the evaporated milk, mixing until well blended. Pour the batter into the unbaked pie shell.","Bake at 450 degrees F (230 degrees C) for 10 minutes then reduce the oven temperature to 325 degrees F (165 degrees F) and continue baking pie for an additional 30 minutes or until a knife inserted into the mixture comes out clean."}	http://images.media-allrecipes.com/userphotos/547410.jpg	8
+\.
+
+
+--
+-- Name: recipe_rec_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('recipe_rec_id_seq', 5, true);
+
+
+--
+-- Data for Name: usr; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY usr (usr_id, firstname, lastname, usrname, email, fr_id) FROM stdin;
+2	Steven	Shih	steven	\N	\N
+1	Andrew	Law	andrew		\N
+3	Ash	Tan	ash	\N	2
+\.
+
+
+--
+-- Data for Name: usr_comm; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY usr_comm (usr_id, comm_id) FROM stdin;
+2	1
+3	1
+1	1
+\.
+
+
+--
+-- Name: usr_usr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('usr_usr_id_seq', 3, true);
+
+
+--
+-- Name: comm_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY comm
+    ADD CONSTRAINT comm_pkey PRIMARY KEY (comm_id);
+
+
+--
+-- Name: fridge_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fridge
+    ADD CONSTRAINT fridge_pkey PRIMARY KEY (fr_id);
+
+
+--
+-- Name: fridge_recipe_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fridge_recipe
+    ADD CONSTRAINT fridge_recipe_pkey PRIMARY KEY (fr_id, rec_id);
+
+
+--
+-- Name: recipe_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recipe
+    ADD CONSTRAINT recipe_pkey PRIMARY KEY (rec_id);
+
+
+--
+-- Name: usr_comm_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usr_comm
+    ADD CONSTRAINT usr_comm_pkey PRIMARY KEY (usr_id, comm_id);
+
+
+--
+-- Name: usr_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usr
+    ADD CONSTRAINT usr_pkey PRIMARY KEY (usr_id);
+
+
+--
+-- Name: comm_fr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY comm
+    ADD CONSTRAINT comm_fr_id_fkey FOREIGN KEY (fr_id) REFERENCES fridge(fr_id);
+
+
+--
+-- Name: fridge_recipe_fr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fridge_recipe
+    ADD CONSTRAINT fridge_recipe_fr_id_fkey FOREIGN KEY (fr_id) REFERENCES fridge(fr_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: fridge_recipe_rec_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fridge_recipe
+    ADD CONSTRAINT fridge_recipe_rec_id_fkey FOREIGN KEY (rec_id) REFERENCES recipe(rec_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: usr_comm_comm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usr_comm
+    ADD CONSTRAINT usr_comm_comm_id_fkey FOREIGN KEY (comm_id) REFERENCES comm(comm_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: usr_comm_usr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usr_comm
+    ADD CONSTRAINT usr_comm_usr_id_fkey FOREIGN KEY (usr_id) REFERENCES usr(usr_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: usr_fr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usr
+    ADD CONSTRAINT usr_fr_id_fkey FOREIGN KEY (fr_id) REFERENCES fridge(fr_id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
