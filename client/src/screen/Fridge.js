@@ -134,12 +134,7 @@ oneScreensWorth = 20
           }
 
         return (
-            // <View style={styles.container}>
-            //     <Text>{this.state.status}</Text>
-            // </View>
-
-            <List>
-                <FlatList 
+                <FlatList
                 data={this.state.data}
                 renderItem={this.renderRow}
                 keyExtractor={this.keyExtractor}
@@ -149,7 +144,11 @@ oneScreensWorth = 20
                 ListEmptyComponent={this.renderEmpty}
                 ItemSeparatorComponent={this.renderSeparator}
                 />
+<<<<<<< HEAD
             </List>
+=======
+
+>>>>>>> 7c2d7d0f528b37c5bebae7ce3798f0a3a7924414
         );
     }
 }
