@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import RecipeRow from '../components/RecipeRow/RecipeRow';
-
+import RecipeCard from '../components/RecipeCard/RecipeCard';
 
 const styles = StyleSheet.create({
   separator: {
@@ -41,11 +41,14 @@ class Recipes extends React.Component {
 
   getData = () => {
     const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
+    //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
+    const url = `http://198.199.98.149:5000/api/rec_names`;
     axios.get(url)
       .then(res => {
+        console.log(res);
         this.setState({
-          data: page === 1 ? res.data.results : [...this.state.data, ...res.data.results],
+          //data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
+          data: page === 1 ? res.data : [...this.state.data, ...res.data],
           loading: false,
           refreshing: false,
         });
@@ -55,16 +58,16 @@ class Recipes extends React.Component {
       });
   };
 
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1,
-      },
-      () => {
-        this.getData();
-      },
-    );
-  };
+  // handleLoadMore = () => {
+  //   this.setState(
+  //     {
+  //       page: this.state.page + 1,
+  //     },
+  //     () => {
+  //       this.getData();
+  //     },
+  //   );
+  // };
 
   filterData = (e) => {
     let updatedData = this.state.data.slice();
@@ -72,7 +75,8 @@ class Recipes extends React.Component {
     
     updatedData = updatedData.filter((item) => { 
       searchText = e.nativeEvent.text.toLowerCase();
-      return item.name.first.toLowerCase().search(searchText) !== -1;
+      //return item.name.first.toLowerCase().search(searchText) !== -1;
+      return item.title.toLowerCase().search(searchText) !== -1;
     });
     this.setState({
       dataAfter: updatedData,
@@ -101,14 +105,20 @@ class Recipes extends React.Component {
     );
   };
 
+  renderRecipeModal = (item) => {
+    return <RecipeCard title={item.title} servings={item.rec_id}/>;
+  }
+
   renderRecipe = ({ item }) => {
     return (
       <RecipeRow
-        firstname={item.name.first}
-        email={item.email}
+        title={item.title}
+        cooktime={item.cooktime}
+        servings={item.servings}
+        url={item.pic_url}
+        clickList={this.renderRecipeModal}
       />
     );
-    
   }
 
   render() {
@@ -116,12 +126,12 @@ class Recipes extends React.Component {
       <FlatList
         data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
         renderItem={this.renderRecipe}
-        keyExtractor={item => item.email}
+        keyExtractor={item => item.rec_id}
         ItemSeparatorComponent={this.renderSeparator}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-        onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={0.01}
+       // onEndReached={this.handleLoadMore}
+        //onEndReachedThreshold={0.01}
       />
     );
   }

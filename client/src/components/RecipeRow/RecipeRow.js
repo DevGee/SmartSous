@@ -8,9 +8,11 @@ class RecipeRow extends PureComponent {
     return (
       <ListItem
         roundAvatar
-        title={this.props.firstname}
-        subtitle={this.props.email}
-        avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
+        title={this.props.title}
+        subtitle={`Cook Time: ${this.props.cooktime} min\nServings: ${this.props.servings}`}
+        subtitleNumberOfLines={2}
+        avatar={{ uri: this.props.url }}
+        onPress={this.props.clickList}
         containerStyle={{ borderBottomWidth: 0 }}
       />
     );

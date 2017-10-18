@@ -54,7 +54,7 @@ class Fridge extends Component {
     }
 
     componentDidMount() {
-        this.getTest();
+        //this.getTest();
       }
 
     getData = () => {
@@ -144,11 +144,6 @@ oneScreensWorth = 20
                 ListEmptyComponent={this.renderEmpty}
                 ItemSeparatorComponent={this.renderSeparator}
                 />
-<<<<<<< HEAD
-            </List>
-=======
-
->>>>>>> 7c2d7d0f528b37c5bebae7ce3798f0a3a7924414
         );
     }
 }
