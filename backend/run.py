@@ -66,19 +66,56 @@ def fr_dbQuery(u_id):
         print(datalist)
         json_data = json.dumps(datalist)
 
-        #print (rows)
-        #print (type(rows[0][0][1]))
-        #print (rows[0][0][1])
         print (json_data)
         cur.close()
         conn.close()
         return json_data
-        #return "test"
-        #return str(rows)
     except:
         conn.close()
         print ("cannot select")
-        #return "no fridge data for user_id: " + str(u_id)
+        return ""
+
+@app.route('/api/rec_names/')
+def get_rec_names():
+    try:
+        conn = psycopg2.connect("dbname='smartsous' user='ss' password='devg' host='localhost'")
+        print("connected okay")
+    except:
+        print ("Unable to connect to the database")
+
+    try:
+        cur = conn.cursor()
+        cur.execute("select rec_id, rec_name, cook_time, servings, ingred, instr, pic_url from recipe;") 
+        
+        rows = cur.fetchall()
+        #rows = cur.fetchone()
+        #rows = rows[0]
+        #print(rows)
+
+        datalist = []
+
+        for r in rows:
+            data = {"rec_id": r[0],
+                    "title": r[1],
+                    "cooktime": r[2],
+                    "servings": r[3],
+                    "ingr": r[4],
+                    "instr": r[5],
+                    "pic_url": r[6]
+                    }
+            datalist.append(data)
+
+        #print(datalist)
+        json_data = json.dumps(datalist)
+
+        #print (json_data)
+        #cur.close()
+        #conn.close()
+        return json_data
+        #return rows
+    except:
+        conn.close()
+        print ("cannot select")
         return ""
 
 
