@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import CustomSearchBar from '../components/CustomSearchBar/CustomSearchBar';
 import RecipeRow from '../components/RecipeRow/RecipeRow';
 
 
@@ -30,6 +30,7 @@ class Recipes extends React.Component {
       seed: 1,
       error: null,
       refreshing: false,
+
     };
   }
 
@@ -65,18 +66,6 @@ class Recipes extends React.Component {
     );
   };
 
-  filterData(searchText, recipes) {
-    let text = searchText.toLowerCase();
-    return filter(recipes, (n) => {
-      let note = n.body.toLowerCase();
-      return note.search(text) !== -1;
-    });
-  };
-
-  setSearchText = (e) => {
-    let searchText = e.nativeEvent.text;
-  };
-
   renderSeparator = () => {
     return (
       <View
@@ -86,20 +75,18 @@ class Recipes extends React.Component {
   };
 
   renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." lightTheme />; // Use onChange
+    return <CustomSearchBar data={this.state.data}/>; // Use onChange
   };
 
   renderFooter = () => {
     if (!this.state.loading) return null;
     return (
-      <View
-        style={styles.footer}
-      >
+      <View style={styles.footer}>
         <ActivityIndicator animating size="large" />
       </View>
     );
   };
-  
+
   renderRecipe = ({ item }) => {
     return (
       <RecipeRow
