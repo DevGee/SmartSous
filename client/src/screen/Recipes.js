@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
-import CustomSearchBar from '../components/CustomSearchBar/CustomSearchBar';
+import { SearchBar } from 'react-native-elements';
 import RecipeRow from '../components/RecipeRow/RecipeRow';
 
 
@@ -26,11 +26,12 @@ class Recipes extends React.Component {
     this.state = {
       loading: false,
       data: [],
+      dataAfter: [],
       page: 1,
       seed: 1,
       error: null,
       refreshing: false,
-
+      searchText: '',
     };
   }
 
@@ -41,7 +42,6 @@ class Recipes extends React.Component {
   getData = () => {
     const { page, seed } = this.state;
     const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
-    this.setState({ loading: true });
     axios.get(url)
       .then(res => {
         this.setState({
@@ -52,19 +52,33 @@ class Recipes extends React.Component {
       })
       .catch(error => {
         console.log(error);
-        this.setState({ error, loading: false });
       });
   };
 
   handleLoadMore = () => {
-    this.setState({
-      page: this.state.page + 1,
-    },
-    () => {
-      this.getData();
-    },
+    this.setState(
+      {
+        page: this.state.page + 1,
+      },
+      () => {
+        this.getData();
+      },
     );
   };
+
+  filterData = (e) => {
+    let updatedData = this.state.data.slice();
+    let searchText = '';
+    
+    updatedData = updatedData.filter((item) => { 
+      searchText = e.nativeEvent.text.toLowerCase();
+      return item.name.first.toLowerCase().search(searchText) !== -1;
+    });
+    this.setState({
+      dataAfter: updatedData,
+      searchText,
+    });
+  }
 
   renderSeparator = () => {
     return (
@@ -75,7 +89,7 @@ class Recipes extends React.Component {
   };
 
   renderHeader = () => {
-    return <CustomSearchBar data={this.state.data}/>; // Use onChange
+    return <SearchBar placeholder="Type Here..." onChange={this.filterData} lightTheme />; // Use onChange
   };
 
   renderFooter = () => {
@@ -94,19 +108,20 @@ class Recipes extends React.Component {
         email={item.email}
       />
     );
+    
   }
 
   render() {
     return (
       <FlatList
-        data={this.state.data}
+        data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
         renderItem={this.renderRecipe}
         keyExtractor={item => item.email}
         ItemSeparatorComponent={this.renderSeparator}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
         onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.01}
       />
     );
   }
