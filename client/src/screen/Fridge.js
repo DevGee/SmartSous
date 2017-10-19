@@ -56,7 +56,6 @@ class Fridge extends Component {
         };
     }
 
-<<<<<<< HEAD
     // componentDidMount() {
     //     this.getIngredientsData();
     //   }
@@ -85,10 +84,6 @@ class Fridge extends Component {
         // });
         //console.log(this.state.testprop);
         console.log('testtest');
-=======
-    componentDidMount() {
-        //this.getTest();
->>>>>>> af3ed6d194044595dde05dd240f1b4a53728819f
       }
 
     onMinusButtonPress = () => {
@@ -99,11 +94,11 @@ class Fridge extends Component {
         this.console.log('testtestminus');
       }
       
-      goToChangeQty = (ingredient) => {
+    goToChangeQty = (ingredient) => {
         NavigationActions.view2(ingredient);
         console.log('Navigation router run...');
     }
-    
+
     //`renderRow` function. How each cell/row should be rendered
     //<Text style={styles.label}>{item.description}</Text>
     renderRow ({item}) {
