@@ -56,6 +56,7 @@ class Fridge extends Component {
         };
     }
 
+<<<<<<< HEAD
     // componentDidMount() {
     //     this.getIngredientsData();
     //   }
@@ -84,6 +85,10 @@ class Fridge extends Component {
         // });
         //console.log(this.state.testprop);
         console.log('testtest');
+=======
+    componentDidMount() {
+        //this.getTest();
+>>>>>>> af3ed6d194044595dde05dd240f1b4a53728819f
       }
 
     onMinusButtonPress = () => {

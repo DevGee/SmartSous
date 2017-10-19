@@ -9,6 +9,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
 });
 
 class TestScreen extends Component {
@@ -23,10 +31,20 @@ class TestScreen extends Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Testing second screen with CSS</Text>
-        <Text>{this.state.test}</Text>
-        <TestComponent name='Steven'/>
+      <View style={styles.modalContent}>
+        <Text>Salt and Pepper Ribeye</Text>
+        <Text>Cook Time: 30 min</Text>
+        <Text>Servings: 1</Text>
+        <Text>Ingredients: "1 tablespoon cornstarch"</Text>
+        <Text>     "1 tablespoon cold water"</Text>
+        <Text>      "1/2 cup white sugar"</Text>
+        <Text>      "1/2 cup soy sauce"</Text>
+        <Text>     "1/4 cup cider vinegar"</Text>
+        <Text>     "1 clove garlic, minced"</Text>
+        <Text>     "1/2 teaspoon ground ginger"</Text>
+        <Text>     "1/4 teaspoon ground black pepper"</Text>
+        <Text>     "12 skinless chicken thighs"</Text>
+        
       </View>
     );
   }

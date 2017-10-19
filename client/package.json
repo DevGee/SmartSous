@@ -30,7 +30,11 @@
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.48.4",
     "react-native-elements": "^0.17.0",
+<<<<<<< HEAD
     "react-native-router-flux": "^4.0.0-beta.22",
+=======
+    "react-native-modal": "^4.1.0",
+>>>>>>> af3ed6d194044595dde05dd240f1b4a53728819f
     "react-navigation": "^1.0.0-beta.13"
   }
 }
