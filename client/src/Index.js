@@ -14,7 +14,7 @@ class Index extends React.Component {
   render() {
     const Layout = createRootNavigator(this.state.signedIn);
     return (
-      <Layout/>
+      <Layout style={{ paddingTop: 23 }}/>
     );
   }
 }

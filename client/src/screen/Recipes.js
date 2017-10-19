@@ -43,13 +43,13 @@ class Recipes extends React.Component {
 
   getData = () => {
     const { page, seed } = this.state;
-    //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
+    // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
     const url = `http://198.199.98.149:5000/api/rec_names`;
     axios.get(url)
       .then(res => {
         console.log(res);
         this.setState({
-          //data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
+          // data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
           data: page === 1 ? res.data : [...this.state.data, ...res.data],
           loading: false,
           refreshing: false,
@@ -74,10 +74,9 @@ class Recipes extends React.Component {
   filterData = (e) => {
     let updatedData = this.state.data.slice();
     let searchText = '';
-    
-    updatedData = updatedData.filter((item) => { 
+    updatedData = updatedData.filter((item) => {
       searchText = e.nativeEvent.text.toLowerCase();
-      //return item.name.first.toLowerCase().search(searchText) !== -1;
+      // return item.name.first.toLowerCase().search(searchText) !== -1;
       return item.title.toLowerCase().search(searchText) !== -1;
     });
     this.setState({
@@ -108,11 +107,11 @@ class Recipes extends React.Component {
   };
 
   renderRecipeModal = (item) => {
-   // return <RecipeCard recipeVisible={this.state.showModal} title={item.title} servings={item.servings}/>;
+  // return <RecipeCard recipeVisible={this.state.showModal} title={item.title} servings={item.servings}/>;
   }
 
-  navRecipes() {
-    this.props.navigation.navigate('RecipeDetails');
+  navRecipes(item) {
+    this.props.navigation.navigate('RecipeDetails', { itemRow: item });
   }
 
   renderRecipe = ({ item }) => {
@@ -122,24 +121,11 @@ class Recipes extends React.Component {
         cooktime={item.cooktime}
         servings={item.servings}
         url={item.pic_url}
-        onPress={() => this.navRecipes()}
+        onPress={() => this.navRecipes(item)}
       />
     );
   }
-  renderModal = () => {
-    return (
-      <View style={{ flex: 1 }}>
-        <TouchableOpacity>
-          <Text>Show Modal</Text>
-        </TouchableOpacity>
-        <Modal isVisible={this.state.isModalVisible}>
-          <View style={{ flex: 1 }}>
-            <Text>Hello!</Text>
-          </View>
-        </Modal>
-      </View>
-    );
-  }
+
   render() {
     return (
       <FlatList
@@ -149,8 +135,8 @@ class Recipes extends React.Component {
         ItemSeparatorComponent={this.renderSeparator}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-      // onEndReached={this.handleLoadMore}
-        //onEndReachedThreshold={0.01}
+        // onEndReached={this.handleLoadMore}
+        // onEndReachedThreshold={0.01}
       />
     );
   }

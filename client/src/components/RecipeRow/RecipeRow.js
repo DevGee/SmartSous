@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { ListItem } from 'react-native-elements';
 
 class RecipeRow extends PureComponent {
-
   render() {
     return (
         <ListItem

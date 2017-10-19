@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Card } from 'react-native-elements';
+import Modal from 'react-native-modal';
 import TestComponent from '../components/TestComponent/TestComponent';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 10,
   },
   modalContent: {
     backgroundColor: 'white',
@@ -24,28 +27,41 @@ class TestScreen extends Component {
     super();
     this.state = {
       test: 'test',
+      isModalVisible: false,
     };
   }
   static navigationOptions = {
     title: 'Second Screen',
   };
-  render() {
-    return (
-      <View style={styles.modalContent}>
-        <Text>Salt and Pepper Ribeye</Text>
-        <Text>Cook Time: 30 min</Text>
-        <Text>Servings: 1</Text>
-        <Text>Ingredients: "1 tablespoon cornstarch"</Text>
-        <Text>     "1 tablespoon cold water"</Text>
-        <Text>      "1/2 cup white sugar"</Text>
-        <Text>      "1/2 cup soy sauce"</Text>
-        <Text>     "1/4 cup cider vinegar"</Text>
-        <Text>     "1 clove garlic, minced"</Text>
-        <Text>     "1/2 teaspoon ground ginger"</Text>
-        <Text>     "1/4 teaspoon ground black pepper"</Text>
-        <Text>     "12 skinless chicken thighs"</Text>
-        
+
+  renderButton = (text, onPress) => {
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.button}>
+        <Text>{text}</Text>
       </View>
+    </TouchableOpacity>
+  }
+  
+  render() {
+    let imageUrl = this.props.navigation.state.params.itemRow.pic_url;
+    let newUrl = imageUrl.replace('70x70/', '750x750/');
+    console.log(newUrl);
+
+    return (
+      <Card title={this.props.navigation.state.params.itemRow.title}>
+        <ScrollView style={{ height: 525 }}>
+          <View style={{ width: 300, height: 200 }}>
+            <Image style={{ width: '100%', height: '100%' }} resizeMode='cover' source={{ uri: newUrl }}/>
+          </View>
+          <View style={styles.modalContent}>
+            <Text>{this.props.navigation.state.params.itemRow.title}</Text>
+            <Text>Cook time: {this.props.navigation.state.params.itemRow.cooktime}</Text>
+            <Text>Servings: {this.props.navigation.state.params.itemRow.servings}</Text>
+            <Text>Ingredients: {this.props.navigation.state.params.itemRow.ingr}</Text>
+            <Text>Instructions: {this.props.navigation.state.params.itemRow.instr}</Text>
+          </View>
+        </ScrollView>
+      </Card>
     );
   }
 }
