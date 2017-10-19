@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, FlatList, StyleSheet, Text, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import Modal from 'react-native-modal';
 import RecipeRow from '../components/RecipeRow/RecipeRow';
 import RecipeCard from '../components/RecipeCard/RecipeCard';
 
@@ -32,6 +33,7 @@ class Recipes extends React.Component {
       error: null,
       refreshing: false,
       searchText: '',
+      isModalVisible: false,
     };
   }
 
@@ -106,7 +108,11 @@ class Recipes extends React.Component {
   };
 
   renderRecipeModal = (item) => {
-    return <RecipeCard title={item.title} servings={item.rec_id}/>;
+   // return <RecipeCard recipeVisible={this.state.showModal} title={item.title} servings={item.servings}/>;
+  }
+
+  navRecipes() {
+    this.props.navigation.navigate('RecipeDetails');
   }
 
   renderRecipe = ({ item }) => {
@@ -116,11 +122,24 @@ class Recipes extends React.Component {
         cooktime={item.cooktime}
         servings={item.servings}
         url={item.pic_url}
-        clickList={this.renderRecipeModal}
+        onPress={() => this.navRecipes()}
       />
     );
   }
-
+  renderModal = () => {
+    return (
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity>
+          <Text>Show Modal</Text>
+        </TouchableOpacity>
+        <Modal isVisible={this.state.isModalVisible}>
+          <View style={{ flex: 1 }}>
+            <Text>Hello!</Text>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
   render() {
     return (
       <FlatList
@@ -130,7 +149,7 @@ class Recipes extends React.Component {
         ItemSeparatorComponent={this.renderSeparator}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-       // onEndReached={this.handleLoadMore}
+      // onEndReached={this.handleLoadMore}
         //onEndReachedThreshold={0.01}
       />
     );

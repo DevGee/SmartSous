@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -32,7 +31,7 @@ class RecipeCard extends Component {
   constructor() {
     super();
     this.state = {
-      recipeVisible: false,
+      recipeVisible: this.props.recipeVisible,
     };
   }
 
@@ -55,19 +54,17 @@ class RecipeCard extends Component {
       <Text>{this.props.cooktime}</Text>
       <Text>{this.props.ingr}</Text>
       <Text>{this.props.instr}</Text>
-      {this.renderButton('Close', () => this.setState({ recipeVisible: null }))}
     </View>
   }
-
+//{this.renderButton('Close', () => this.setRecipeVisible(null))}
   render() {
     return (
       <View style={styles.container}>
-        <Modal isVisible={this.state.recipeVisible} animationIn="slideInLeft" animationOut="slideOutRight">
-          {this.renderRecipeContent}
-        </Modal>
+        {this.renderRecipeContent}
       </View>
     );
   }
 }
+
 
 export default RecipeCard;
