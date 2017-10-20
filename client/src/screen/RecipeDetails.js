@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Image, StyleSheet, ScrollView, Text, View } from 'react-native';
 import { Card } from 'react-native-elements';
 
 const styles = StyleSheet.create({
@@ -20,26 +20,8 @@ const styles = StyleSheet.create({
   },
 });
 
-class TestScreen extends Component {
-  constructor() {
-    super();
-    this.state = {
-      test: 'test',
-      isModalVisible: false,
-    };
-  }
-  static navigationOptions = {
-    title: 'Second Screen',
-  };
+class RecipeDetails extends Component {
 
-  renderButton = (text, onPress) => {
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.button}>
-        <Text>{text}</Text>
-      </View>
-    </TouchableOpacity>
-  }
-  
   render() {
     let imageUrl = this.props.navigation.state.params.itemRow.pic_url;
     let newUrl = imageUrl.replace('70x70/', '750x750/');
@@ -57,6 +39,7 @@ class TestScreen extends Component {
             <Text>Servings: {this.props.navigation.state.params.itemRow.servings}</Text>
             <Text>Ingredients: {this.props.navigation.state.params.itemRow.ingr}</Text>
             <Text>Instructions: {this.props.navigation.state.params.itemRow.instr}</Text>
+            <Button title="Press Me"/>
           </View>
         </ScrollView>
       </Card>
@@ -64,4 +47,4 @@ class TestScreen extends Component {
   }
 }
 
-export default RecipeDeta;
+export default RecipeDetails;

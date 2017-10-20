@@ -8,7 +8,7 @@ import Home from '../screen/Home';
 import Profile from '../screen/Profile';
 import Recipes from '../screen/Recipes';
 import Fridge from '../screen/Fridge';
-import TestScreen from '../screen/TestScreen';
+import RecipeDetails from '../screen/RecipeDetails';
 
 export const SignedOut = StackNavigator({
   SignUp: {
@@ -61,13 +61,13 @@ export const SignedIn = TabNavigator(
   },
 );
 
-export const RecipeDetails = StackNavigator(
+export const RecipeDetailScreen = StackNavigator(
   {
     Recipes: {
       screen: Recipes,
     },
     RecipeDetails: {
-      screen: TestScreen,
+      screen: RecipeDetails,
     },
   },
   {
@@ -90,8 +90,8 @@ export const createRootNavigator = (signedIn = false) => {
           gesturesEnabled: false,
         },
       },
-      RecipeDetails: {
-        screen: TestScreen,
+      RecipeDetailScreen: {
+        screen: RecipeDetails,
         navigationOptions: {
           gesturesEnabled: true,
         },

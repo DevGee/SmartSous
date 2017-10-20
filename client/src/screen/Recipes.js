@@ -111,7 +111,7 @@ class Recipes extends React.Component {
   }
 
   navRecipes(item) {
-    this.props.navigation.navigate('RecipeDetails', { itemRow: item });
+    this.props.navigation.navigate('RecipeDetailScreen', { itemRow: item });
   }
 
   renderRecipe = ({ item }) => {
