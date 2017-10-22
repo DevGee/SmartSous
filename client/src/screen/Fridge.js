@@ -43,7 +43,8 @@ class Fridge extends Component {
             data: [
                 {title: "eggs", qty: 5}, 
                 {title: "bacon", qty: 2}, 
-                {title: "goldfish", qty: 7}
+                {title: "goldfish", qty: 7},
+                {title: "iPhone X's", qty: 1}
                 ],
             testprop: 'not updated',
             page: 1,
@@ -54,12 +55,12 @@ class Fridge extends Component {
     }
 
     componentDidMount() {
-        //this.getTest();
+        this.getData();
       }
 
     getData = () => {
         //const { page, seed } = this.state;
-        const url = '198.199.98.149:5000/api/fridge/3';
+        const url = 'http://198.199.98.149:5000/api/fridge/3';
         this.setState({ loading: true });
         axios.get(url)
           .then(res => {
@@ -82,20 +83,69 @@ class Fridge extends Component {
         console.log(this.state.testprop);
       }
 
+      onPlusButtonPress = () => {
+        // this.setState({
+        //   testprop: 'button can PLUS'
+        // });
+        //console.log(this.state.testprop);
+        console.log('testtest');
+      }
+
+    onMinusButtonPress = () => {
+        // this.setState({
+        //   testprop: 'button can MINUS'
+        // });
+        //console.log(this.state.testprop);
+        this.console.log('testtestminus');
+      }
+      
+    goToChangeQty = (ingredient) => {
+        NavigationActions.view2(ingredient);
+        console.log('Navigation router run...');
+    }
+
     //`renderRow` function. How each cell/row should be rendered
     //<Text style={styles.label}>{item.description}</Text>
     renderRow ({item}) {
         return (
-          <View style={styles.row}>
-            <Text style={styles.boldLabel}>{item.title}</Text>
-            <Text style={styles.label}>{item.qty}</Text>
-            <Button
-            onPress={this.onButtonPress}
-            title="+/-"
-            color="#841584"
-            accessibilityLabel="This manipulates the qty"
-            />
-          </View>
+
+          <ListItem 
+          button 
+          onPress={() => this.goToChangeQty(item)}
+          roundAvatar
+          title={item.title}
+          subtitle={`Qty: ${item.qty}`}
+          avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
+          // containerStyle={{ borderBottomWidth: 0 }}
+          // buttonGroup
+          // buttonGroupButtons = {['+', '-']}
+          // buttonGroupContainerStyle = {{marginRight: 0, marginLeft: 0, height: 30, width: 66, backgroundColor: 'white', borderColor: '#007aff', borderRadius: 5}}
+          // buttonGroupContainerBorderRadius = {3}
+          // buttonGroupTextStyle = {{color: '#007aff'}}
+          // buttonGroupButtonStyle = {{width: 32}}
+          // buttonGroupSelectedBackgroundColor = {'#007aff'}
+          // buttonGroupSelectedTextStyle = {{color: 'black'}}
+          // buttonGroupInnerBorderStyle = {{color: '#0071ff'}}
+          // buttonGroupComponent = {TouchableHighlight}
+          // buttonGroupActiveOpacity = {0.9}
+          // buttonGroupUnderlayColor = {'#D9EBFF'}
+          //buttonGroupDisableSelected
+          //buttonGroupSelectedIndex = {selectedIndex}
+          //onButtonGroupChange = {onButtonGroupChange}
+          //hideChevron
+        />
+
+
+          // <View style={styles.row}>
+          //   <Text style={styles.boldLabel}>{item.title}</Text>
+          //   <Text style={styles.label}>{item.qty}</Text>
+          //   <Button
+          //   onPress={this.onButtonPress}
+          //   title="+/-"
+          //   color="#841584"
+          //   accessibilityLabel="This manipulates the qty"
+          //   />
+          // </View>
         )
       }
 
