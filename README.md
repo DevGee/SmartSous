@@ -1,5 +1,5 @@
 # SmartSous
-
+NOTE: Change styles heights to percentages or flex
 ## Dev Branch
   - For development; development server
   - `npm install` in root folder to get eslint code linting.
