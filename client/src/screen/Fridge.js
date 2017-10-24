@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Button, ActivityIndicator, StyleSheet, Text, View, FlatList } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { ApplicationStyles, Metrics, Colors } from '../Containers/Themes'
-
+import Modal from 'react-native-modal';
+import IngredientCard from '../components/IngredientCard/IngredientCard';
 
 const styles = StyleSheet.create({
     container: {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
       }
 });
 
-class Fridge extends Component {
+class Fridge extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,7 +47,7 @@ class Fridge extends Component {
                 {title: "goldfish", qty: 7},
                 {title: "iPhone X's", qty: 1}
                 ],
-            testprop: 'not updated',
+            testprop: 'Fridge Ingredients',
             page: 1,
             seed: 1,
             error: null,
@@ -76,80 +77,7 @@ class Fridge extends Component {
           });
       };
 
-    onButtonPress = () => {
-        this.setState({
-          testprop: 'button can set state'
-        });
-        console.log(this.state.testprop);
-      }
-
-      onPlusButtonPress = () => {
-        // this.setState({
-        //   testprop: 'button can PLUS'
-        // });
-        //console.log(this.state.testprop);
-        console.log('testtest');
-      }
-
-    onMinusButtonPress = () => {
-        // this.setState({
-        //   testprop: 'button can MINUS'
-        // });
-        //console.log(this.state.testprop);
-        this.console.log('testtestminus');
-      }
-      
-    goToChangeQty = (ingredient) => {
-        NavigationActions.view2(ingredient);
-        console.log('Navigation router run...');
-    }
-
-    //`renderRow` function. How each cell/row should be rendered
-    //<Text style={styles.label}>{item.description}</Text>
-    renderRow ({item}) {
-        return (
-
-          <ListItem 
-          button 
-          onPress={() => this.goToChangeQty(item)}
-          roundAvatar
-          title={item.title}
-          subtitle={`Qty: ${item.qty}`}
-          avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
-          // containerStyle={{ borderBottomWidth: 0 }}
-          // buttonGroup
-          // buttonGroupButtons = {['+', '-']}
-          // buttonGroupContainerStyle = {{marginRight: 0, marginLeft: 0, height: 30, width: 66, backgroundColor: 'white', borderColor: '#007aff', borderRadius: 5}}
-          // buttonGroupContainerBorderRadius = {3}
-          // buttonGroupTextStyle = {{color: '#007aff'}}
-          // buttonGroupButtonStyle = {{width: 32}}
-          // buttonGroupSelectedBackgroundColor = {'#007aff'}
-          // buttonGroupSelectedTextStyle = {{color: 'black'}}
-          // buttonGroupInnerBorderStyle = {{color: '#0071ff'}}
-          // buttonGroupComponent = {TouchableHighlight}
-          // buttonGroupActiveOpacity = {0.9}
-          // buttonGroupUnderlayColor = {'#D9EBFF'}
-          //buttonGroupDisableSelected
-          //buttonGroupSelectedIndex = {selectedIndex}
-          //onButtonGroupChange = {onButtonGroupChange}
-          //hideChevron
-        />
-
-
-          // <View style={styles.row}>
-          //   <Text style={styles.boldLabel}>{item.title}</Text>
-          //   <Text style={styles.label}>{item.qty}</Text>
-          //   <Button
-          //   onPress={this.onButtonPress}
-          //   title="+/-"
-          //   color="#841584"
-          //   accessibilityLabel="This manipulates the qty"
-          //   />
-          // </View>
-        )
-      }
-
-// Render a header?
+      // Render a header?
 renderHeader = () =>
 <Text style={[styles.label, styles.sectionHeader]}>{this.state.testprop}</Text>
 
@@ -171,6 +99,30 @@ keyExtractor = (item, index) => index
 
 // How many items should be kept im memory as we scroll?
 oneScreensWorth = 20
+
+
+
+renderIngredientModal = (item) => {  
+}
+      
+navIngredients(item) {
+  this.props.navigation.navigate('FridgeIngredientScreen', {ingredientItem: item});
+}
+
+    //`renderRow` function. How each cell/row should be rendered
+    //<Text style={styles.label}>{item.description}</Text>
+    renderRow ({item}) {
+        return (
+        <ListItem 
+          button 
+          onPress={() => this.navIngredients(item)}
+          roundAvatar
+          title={item.title}
+          subtitle={`Quantity: ${item.qty}`}
+          avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
+        />
+      );
+    }
 
 
     render() {
@@ -199,3 +151,92 @@ oneScreensWorth = 20
 }
 
 export default Fridge;
+
+
+
+
+
+/******** Previous Code *********
+
+    // onButtonPress = () => {
+    //     this.setState({
+    //       testprop: 'button can set state'
+    //     });
+    //     console.log(this.state.testprop);
+    //   }
+
+    //   onPlusButtonPress = () => {
+    //     // this.setState({
+    //     //   testprop: 'button can PLUS'
+    //     // });
+    //     //console.log(this.state.testprop);
+    //     console.log('testtest');
+    //   }
+
+    // onMinusButtonPress = () => {
+    //     // this.setState({
+    //     //   testprop: 'button can MINUS'
+    //     // });
+    //     //console.log(this.state.testprop);
+    //     this.console.log('testtestminus');
+    //   }
+      
+    // goToChangeQty = (ingredient) => {
+    //     NavigationActions.view2(ingredient);
+    //     console.log('Navigation router run...');
+    // }
+
+
+
+
+        //`renderRow` function. How each cell/row should be rendered
+    //<Text style={styles.label}>{item.description}</Text>
+    renderRow ({item}) {
+      return (
+
+        <ListItem 
+        button 
+        onPress={() => this.navIngredients(item)}
+        roundAvatar
+        title={item.title}
+        subtitle={`Quantity: ${item.qty}`}
+        avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
+        // containerStyle={{ borderBottomWidth: 0 }}
+        // buttonGroup
+        // buttonGroupButtons = {['+', '-']}
+        // buttonGroupContainerStyle = {{marginRight: 0, marginLeft: 0, height: 30, width: 66, backgroundColor: 'white', borderColor: '#007aff', borderRadius: 5}}
+        // buttonGroupContainerBorderRadius = {3}
+        // buttonGroupTextStyle = {{color: '#007aff'}}
+        // buttonGroupButtonStyle = {{width: 32}}
+        // buttonGroupSelectedBackgroundColor = {'#007aff'}
+        // buttonGroupSelectedTextStyle = {{color: 'black'}}
+        // buttonGroupInnerBorderStyle = {{color: '#0071ff'}}
+        // buttonGroupComponent = {TouchableHighlight}
+        // buttonGroupActiveOpacity = {0.9}
+        // buttonGroupUnderlayColor = {'#D9EBFF'}
+        //buttonGroupDisableSelected
+        //buttonGroupSelectedIndex = {selectedIndex}
+        //onButtonGroupChange = {onButtonGroupChange}
+        //hideChevron
+      ///>
+
+
+        // <View style={styles.row}>
+        //   <Text style={styles.boldLabel}>{item.title}</Text>
+        //   <Text style={styles.label}>{item.qty}</Text>
+        //   <Button
+        //   onPress={this.onButtonPress}
+        //   title="+/-"
+        //   color="#841584"
+        //   accessibilityLabel="This manipulates the qty"
+        //   />
+        // </View>
+      )
+    }
+
+
+
+
+
+
+    */
