@@ -25,7 +25,7 @@ class RecipeDetails extends Component {
   render() {
     let imageUrl = this.props.navigation.state.params.itemRow.pic_url;
     let newUrl = imageUrl.replace('70x70/', '750x750/');
-    console.log(newUrl);
+    //console.log(newUrl);
 
     return (
       <Card title={this.props.navigation.state.params.itemRow.title}>

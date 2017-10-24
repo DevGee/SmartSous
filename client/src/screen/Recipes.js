@@ -47,7 +47,7 @@ class Recipes extends React.Component {
     const url = `http://198.199.98.149:5000/api/rec_names`;
     axios.get(url)
       .then(res => {
-        console.log(res);
+        //console.log(res);
         this.setState({
           // data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
           data: page === 1 ? res.data : [...this.state.data, ...res.data],
@@ -56,7 +56,7 @@ class Recipes extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
       });
   };
 

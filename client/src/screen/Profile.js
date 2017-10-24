@@ -20,11 +20,8 @@ class Profile extends Component {
       text: 'placeholder',
     };
   }
-  componentDidMount() {
-
-  }
-  getTest() {
-
+  signOut() {
+    this.props.navigation.navigate('SignedOut');
   }
   render() {
     return (
@@ -33,6 +30,7 @@ class Profile extends Component {
         <Text>{this.state.text}</Text>
         <Button
           title='Logout'
+          onPress={() => this.signOut()}
          />
       </View>
     );
