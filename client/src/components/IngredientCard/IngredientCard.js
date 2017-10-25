@@ -27,16 +27,16 @@ const styles = StyleSheet.create({
   },
 });
 
-class RecipeCard extends Component {
+class IngredientCard extends Component {
   constructor() {
     super();
     this.state = {
-      recipeVisible: this.props.recipeVisible,
+      ingredientVisible: this.props.ingredientVisible,
     };
   }
 
-  setRecipeVisible(recipeVisible) {
-    this.setState({ recipeVisible });
+  setIngredientVisible(ingredientVisible) {
+    this.setState({ ingredientVisible });
   }
 
   renderButton = (text, onPress) => {
@@ -47,24 +47,21 @@ class RecipeCard extends Component {
     </TouchableOpacity>
   }
 
-  renderRecipeContent = () => {
+  renderIngredientContent = () => {
     <View style={styles.modalContent}>
       <Text>{this.props.title}</Text>
-      <Text>{this.props.servings}</Text>
-      <Text>{this.props.cooktime}</Text>
-      <Text>{this.props.ingr}</Text>
-      <Text>{this.props.instr}</Text>
+      <Text>{this.props.qty}</Text>
     </View>
   }
 //{this.renderButton('Close', () => this.setRecipeVisible(null))}
   render() {
     return (
       <View style={styles.container}>
-        {this.renderRecipeContent}
+        {this.renderIngredientContent}
       </View>
     );
   }
 }
 
 
-export default RecipeCard;
+export default IngredientCard;
