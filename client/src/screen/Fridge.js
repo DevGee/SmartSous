@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Button, ActivityIndicator, StyleSheet, Text, View, FlatList } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { ApplicationStyles, Metrics, Colors } from '../Containers/Themes'
-import Modal from 'react-native-modal';
-import IngredientCard from '../components/IngredientCard/IngredientCard';
+import IngredientRow from '../components/IngredientRow/IngredientRow';
+//import Modal from 'react-native-modal';
+//import IngredientCard from '../components/IngredientCard/IngredientCard';
   
 
 const styles = StyleSheet.create({
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
       }
 });
 
-class Fridge extends React.Component {
+class Fridge extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,20 +55,12 @@ class Fridge extends React.Component {
             error: null,
             refreshing: false,
         };
-        this.navIngredients = this.navIngredients.bind(this);
+     this.navIngredients = this.navIngredients.bind(this);
     }
 
     componentDidMount() {
         this.getData();
       }
-
-      renderIngredientModal = (item) => {  
-      }
-            
-      navIngredients(item) {
-        this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item });
-      }
-
 
     getData = () => {
         //const { page, seed } = this.state;
@@ -111,20 +104,22 @@ keyExtractor = (item, index) => index
 oneScreensWorth = 20
 
 
-    //`renderRow` function. How each cell/row should be rendered
-    //<Text style={styles.label}>{item.description}</Text>
-    renderRow ({item}) {
+      // renderIngredientModal = (item) => {  
+      // }
+            
+      navIngredients = (item) => {
+        this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item });
+      }
+
+      renderIngredient = ({item}) => {
         return (
-        <ListItem 
-          button 
-          onPress={() => this.navIngredients(item)}
-          roundAvatar
+          <IngredientRow 
           title={item.title}
-          subtitle={`Quantity: ${item.qty}`}
-          avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
-        />
-      );
-    }
+          qty={item.qty}
+          onPress={() => this.navIngredients(item)}
+          />
+        );
+      }
 
 
     render() {
@@ -140,7 +135,7 @@ oneScreensWorth = 20
         return (
                 <FlatList
                 data={this.state.data}
-                renderItem={this.renderRow}
+                renderItem={this.renderIngredient}
                 keyExtractor={this.keyExtractor}
                 initialNumToRender={this.oneScreensWorth}
                 ListHeaderComponent={this.renderHeader}
@@ -235,6 +230,23 @@ export default Fridge;
         // </View>
       )
     }
+
+
+    //`renderRow` function. How each cell/row should be rendered
+    //<Text style={styles.label}>{item.description}</Text>
+    renderRow ({item}) {
+        return (
+        <ListItem 
+          button 
+          onPress={this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item })}
+          roundAvatar
+          title={item.title}
+          subtitle={`Quantity: ${item.qty}`}
+          avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
+        />
+      );
+    }
+
 
 
 
