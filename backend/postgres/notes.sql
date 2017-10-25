@@ -176,6 +176,20 @@ values ('Oven Scrambled Eggs', 35, 12,
 );
 
 
+insert into recipe (rec_name, cook_time, servings, ingred, instr, pic_url)
+values ('Food item added during demo', 10, 5,
+    '{
+    "ingredients go here"
+    }',
+    '{
+
+    "Instructions go here",
+    "Heat 3 1/2 cups dashi in a pot over medium heat. Add tofu and wakame; stir to combine. Remove 1 cup warmed dashi to a small bowl and whisk in miso paste. Pour miso mixture back into the pot with remaining dashi. Stir until warmed through. Serve garnished with chopped green onions."
+    }',
+    'http://images.media-allrecipes.com/userphotos/70x70/1115077.jpg'
+);
+
+
 
 insert into recipe (rec_name, cook_time, servings, ingred, instr, pic_url)
 values ('Miso Soup', 30, 4,
