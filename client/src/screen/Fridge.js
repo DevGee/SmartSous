@@ -5,6 +5,7 @@ import { List, ListItem } from 'react-native-elements';
 import { ApplicationStyles, Metrics, Colors } from '../Containers/Themes'
 import Modal from 'react-native-modal';
 import IngredientCard from '../components/IngredientCard/IngredientCard';
+  
 
 const styles = StyleSheet.create({
     container: {
@@ -53,11 +54,20 @@ class Fridge extends React.Component {
             error: null,
             refreshing: false,
         };
+        this.navIngredients = this.navIngredients.bind(this);
     }
 
     componentDidMount() {
         this.getData();
       }
+
+      renderIngredientModal = (item) => {  
+      }
+            
+      navIngredients(item) {
+        this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item });
+      }
+
 
     getData = () => {
         //const { page, seed } = this.state;
@@ -100,14 +110,6 @@ keyExtractor = (item, index) => index
 // How many items should be kept im memory as we scroll?
 oneScreensWorth = 20
 
-
-
-renderIngredientModal = (item) => {  
-}
-      
-navIngredients(item) {
-  this.props.navigation.navigate('FridgeIngredientScreen', {ingredientItem: item});
-}
 
     //`renderRow` function. How each cell/row should be rendered
     //<Text style={styles.label}>{item.description}</Text>

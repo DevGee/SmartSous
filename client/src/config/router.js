@@ -81,7 +81,7 @@ export const FridgeIngredientScreen = StackNavigator(
     Fridge: {
       screen: Fridge,
     },
-    IngredientCard: {
+    FridgeIngredient: {
       screen: FridgeIngredient,
     },
   },
