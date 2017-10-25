@@ -14,12 +14,12 @@ def dbQuery(num, mode):
     except psycopg2.Error as e:
         print ("Unable to connect to the database")
         print (e.pgerror)
-        return e.pgerror 
+        return e.pgerror
 
     try:
         if mode is 0:
-            cur.execute("select rec_id, rec_name, cook_time, servings, ingred, instr, pic_url from recipe;") 
-            
+            cur.execute("select rec_id, rec_name, cook_time, servings, ingred, instr, pic_url from recipe;")
+
             rows = cur.fetchall()
             datalist = []
 
@@ -64,7 +64,7 @@ def dbQuery(num, mode):
         conn.close()
         print ("cannot select")
         print (e.pgerror)
-        return e.pgerror 
+        return e.pgerror
 
 
 
