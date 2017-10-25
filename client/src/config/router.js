@@ -87,8 +87,8 @@ export const FridgeIngredientScreen = StackNavigator(
   },
   {
     mode: 'card',
-  }
-)
+  },
+);
 
 export const createRootNavigator = (signedIn = false) => {
   return StackNavigator(

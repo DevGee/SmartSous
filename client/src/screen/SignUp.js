@@ -6,9 +6,7 @@ import googleLogin from '../config/googlelogin';
 
 const googleButton = async (navigation) => {
   const result = await googleLogin(); // Access token on success, Object error: true on failure
-  //console.log(result);
   if (result.error) {
-    // navigation.navigate('SignedOut');
     // Stay same screen
   } else {
     navigation.navigate('SignedIn');
