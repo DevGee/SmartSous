@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Recipes extends React.Component {
+class Recipes extends Component {
   constructor(props) {
     super(props);
 
@@ -34,7 +34,6 @@ class Recipes extends React.Component {
       error: null,
       refreshing: false,
       searchText: '',
-      isModalVisible: false,
     };
   }
 
@@ -61,16 +60,17 @@ class Recipes extends React.Component {
       });
   };
 
-  // handleLoadMore = () => {
-  //   this.setState(
-  //     {
-  //       page: this.state.page + 1,
-  //     },
-  //     () => {
-  //       this.getData();
-  //     },
-  //   );
-  // };
+  // Set this up when we need to handle infinite scrolling
+  /* handleLoadMore = () => {
+    this.setState(
+      {
+        page: this.state.page + 1,
+      },
+      () => {
+        this.getData();
+      },
+    );
+  }; */
 
   filterData = (e) => {
     let updatedData = this.state.data.slice();
@@ -95,7 +95,7 @@ class Recipes extends React.Component {
   };
 
   renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." onChange={this.filterData} lightTheme />; // Use onChange
+    return <SearchBar placeholder="Type Here..." onChange={this.filterData} lightTheme />;
   };
 
   renderFooter = () => {
@@ -132,7 +132,7 @@ class Recipes extends React.Component {
         ItemSeparatorComponent={this.renderSeparator}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-        // onEndReached={this.handleLoadMore}
+        // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
         // onEndReachedThreshold={0.01}
       />
     );

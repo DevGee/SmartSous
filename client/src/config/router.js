@@ -11,7 +11,7 @@ import Fridge from '../screen/Fridge';
 import FridgeIngredient from '../screen/FridgeIngredient';
 import RecipeDetails from '../screen/RecipeDetails';
 
-import { TabIconIO, TabIconMat, TabIconFA } from '../components/TabIcon/TabIcon';
+import { TabIconMat, TabIconFA } from '../components/TabIcon/TabIcon';
 
 export const SignedOut = StackNavigator({
   SignUp: {

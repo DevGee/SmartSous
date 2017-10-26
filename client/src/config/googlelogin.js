@@ -20,7 +20,7 @@ signInWithGoogleAsync = async () => {
 };
 
 export default onLoginPress = async () => {
-  const result = await this.signInWithGoogleAsync();
+  const result = await signInWithGoogleAsync();
   // If there is no result.error or result.cancelled, the user is logged in
   // do something with the result.
   //console.log(result);
