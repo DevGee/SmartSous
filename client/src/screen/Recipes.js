@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#CED0CE',
   },
+  listContainer: {
+    backgroundColor: 'white',
+  },
 });
 
 class Recipes extends React.Component {
