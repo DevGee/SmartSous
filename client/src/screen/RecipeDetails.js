@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Image, StyleSheet, ScrollView, Text, View } from 'react-native';
+import { Image, StyleSheet, ScrollView, Text, View } from 'react-native';
 import { Card } from 'react-native-elements';
 
 const styles = StyleSheet.create({
@@ -23,9 +23,8 @@ const styles = StyleSheet.create({
 class RecipeDetails extends Component {
 
   render() {
-    let imageUrl = this.props.navigation.state.params.itemRow.pic_url;
-    let newUrl = imageUrl.replace('70x70/', '750x750/');
-    console.log(newUrl);
+    const imageUrl = this.props.navigation.state.params.itemRow.pic_url;
+    const newUrl = imageUrl.replace('70x70/', '750x750/');
 
     return (
       <Card title={this.props.navigation.state.params.itemRow.title}>
@@ -39,7 +38,6 @@ class RecipeDetails extends Component {
             <Text>Servings: {this.props.navigation.state.params.itemRow.servings}</Text>
             <Text>Ingredients: {this.props.navigation.state.params.itemRow.ingr}</Text>
             <Text>Instructions: {this.props.navigation.state.params.itemRow.instr}</Text>
-            <Button title="Press Me"/>
           </View>
         </ScrollView>
       </Card>

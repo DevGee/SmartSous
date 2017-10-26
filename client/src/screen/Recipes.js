@@ -1,10 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { ActivityIndicator, TouchableOpacity, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import Modal from 'react-native-modal';
 import RecipeRow from '../components/RecipeRow/RecipeRow';
-import RecipeCard from '../components/RecipeCard/RecipeCard';
 
 const styles = StyleSheet.create({
   separator: {
@@ -47,7 +45,7 @@ class Recipes extends React.Component {
     const url = `http://198.199.98.149:5000/api/rec_names`;
     axios.get(url)
       .then(res => {
-        console.log(res);
+        //console.log(res);
         this.setState({
           // data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
           data: page === 1 ? res.data : [...this.state.data, ...res.data],
@@ -56,7 +54,7 @@ class Recipes extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -105,10 +103,6 @@ class Recipes extends React.Component {
       </View>
     );
   };
-
-  renderRecipeModal = (item) => {
-  // return <RecipeCard recipeVisible={this.state.showModal} title={item.title} servings={item.servings}/>;
-  }
 
   navRecipes(item) {
     this.props.navigation.navigate('RecipeDetailScreen', { itemRow: item });

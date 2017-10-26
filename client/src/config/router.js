@@ -8,6 +8,7 @@ import Home from '../screen/Home';
 import Profile from '../screen/Profile';
 import Recipes from '../screen/Recipes';
 import Fridge from '../screen/Fridge';
+import FridgeIngredient from '../screen/FridgeIngredient';
 import RecipeDetails from '../screen/RecipeDetails';
 
 export const SignedOut = StackNavigator({
@@ -75,6 +76,20 @@ export const RecipeDetailScreen = StackNavigator(
   },
 );
 
+export const FridgeIngredientScreen = StackNavigator(
+  {
+    Fridge: {
+      screen: Fridge,
+    },
+    FridgeIngredient: {
+      screen: FridgeIngredient,
+    },
+  },
+  {
+    mode: 'card',
+  },
+);
+
 export const createRootNavigator = (signedIn = false) => {
   return StackNavigator(
     {
@@ -92,6 +107,12 @@ export const createRootNavigator = (signedIn = false) => {
       },
       RecipeDetailScreen: {
         screen: RecipeDetails,
+        navigationOptions: {
+          gesturesEnabled: true,
+        },
+      },
+      FridgeIngredientScreen: {
+        screen: FridgeIngredient,
         navigationOptions: {
           gesturesEnabled: true,
         },
