@@ -1,10 +1,11 @@
 from flask import Flask
-from routes import test_get
 import psycopg2
 import json
 
 app = Flask(__name__)
 
+
+# Yet to use SQLAlchemy instead of psycopg2 to eliminate raw SQL strings
 
 def dbQuery(num, mode):
     try:
