@@ -58,6 +58,11 @@ def dbQuery(num, mode):
             cur.close()
             conn.close()
             return json_data
+        elif mode is 2:
+            data = request.data
+            print("trying to update server")
+            print(data)
+
         else:
             return 'unknown mode'
 
@@ -78,11 +83,14 @@ def hello_world():
     """docstring for hello_world"""
     return 'Server is running'
 
-@app.route('/api/fridge/<int:usr_id>', methods=['GET'])
+@app.route('/api/fridge/<int:usr_id>', methods=['GET', 'POST'])
 def get_fridge(usr_id):
-    #fr_dbQuery()
-    #return fr_dbQuery(usr_id)
-    return dbQuery(usr_id, 1)
+    if (request.method == 'GET':
+        #fr_dbQuery()
+        #return fr_dbQuery(usr_id)
+        return dbQuery(usr_id, 1)
+    else:
+        return dbQuery(usr_id, 2)
 
 
 
