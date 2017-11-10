@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, ScrollView, Text, View } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Icon, Card } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,10 +18,15 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
+  icon: {
+    position: 'absolute',
+    top: 0,
+    left: -1,
+  },
+
 });
 
 class RecipeDetails extends Component {
-
   render() {
     const imageUrl = this.props.navigation.state.params.itemRow.pic_url;
     const newUrl = imageUrl.replace('70x70/', '750x750/');
@@ -40,6 +45,10 @@ class RecipeDetails extends Component {
             <Text>Instructions: {this.props.navigation.state.params.itemRow.instr}</Text>
           </View>
         </ScrollView>
+        <Icon name="close"
+          size={22} containerStyle={styles.icon}
+          onPress={() => this.props.navigation.goBack()}
+        />
       </Card>
     );
   }

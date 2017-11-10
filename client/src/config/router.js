@@ -144,7 +144,7 @@ export const createRootNavigator = (signedIn = false) => {
       RecipeDetailScreen: {
         screen: RecipeDetails,
         navigationOptions: {
-          gesturesEnabled: true,
+          gesturesEnabled: false,
         },
       },
       FridgeIngredientScreen: {

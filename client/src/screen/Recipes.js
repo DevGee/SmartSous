@@ -34,6 +34,7 @@ class Recipes extends Component {
       error: null,
       refreshing: false,
       searchText: '',
+      inRecipe: false,
     };
   }
 
@@ -95,7 +96,7 @@ class Recipes extends Component {
   };
 
   renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." onChange={this.filterData} lightTheme />;
+    return <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />;
   };
 
   renderFooter = () => {
