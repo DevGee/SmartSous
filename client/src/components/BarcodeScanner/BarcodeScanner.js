@@ -3,9 +3,13 @@ import { Text, View, StyleSheet, Alert } from 'react-native';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
 export default class App extends Component {
-  state = {
-    hasCameraPermission: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasCameraPermission: null,
+      visible: true,
+    };
+  }
 
   componentDidMount() {
     this._requestCameraPermission();
@@ -19,6 +23,8 @@ export default class App extends Component {
   };
 
   _handleBarCodeRead = (data) => {
+    //this.setState({ visible: !this.state.visible });
+    this.props.visibleHandler(false);
     Alert.alert(
       'Scan successful!',
       JSON.stringify(data),
@@ -26,6 +32,7 @@ export default class App extends Component {
   };
 
   render() {
+    //if (this.state.visible) {
     return (
       <View style={styles.container}>
         {this.state.hasCameraPermission === null ?
