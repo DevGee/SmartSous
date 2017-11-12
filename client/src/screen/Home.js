@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import BarcodeScanner from '../components/BarcodeScanner/BarcodeScanner';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +15,7 @@ class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hello!</Text>
+        <BarcodeScanner/>
       </View>
     );
   }
