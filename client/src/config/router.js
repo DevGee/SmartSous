@@ -10,6 +10,7 @@ import Recipes from '../screen/Recipes';
 import Fridge from '../screen/Fridge';
 import FridgeIngredient from '../screen/FridgeIngredient';
 import RecipeDetails from '../screen/RecipeDetails';
+import Scanner from '../screen/Scanner';
 
 import { TabIconMat, TabIconFA } from '../components/TabIcon/TabIcon';
 
@@ -108,7 +109,7 @@ export const RecipeDetailScreen = StackNavigator(
     },
   },
   {
-    mode: 'card',
+    mode: 'modal',
   },
 );
 
@@ -119,6 +120,20 @@ export const FridgeIngredientScreen = StackNavigator(
     },
     FridgeIngredient: {
       screen: FridgeIngredient,
+    },
+  },
+  {
+    mode: 'modal',
+  },
+);
+
+export const BarCodeScreen = StackNavigator(
+  {
+    Home: {
+      screen: Home,
+    },
+    BarCode: {
+      screen: Scanner,
     },
   },
   {
@@ -133,11 +148,20 @@ export const createRootNavigator = (signedIn = false) => {
         screen: SignedIn,
         navigationOptions: {
           gesturesEnabled: false,
+          header: null,
         },
       },
       SignedOut: {
         screen: SignedOut,
         navigationOptions: {
+          gesturesEnabled: false,
+          header: null,
+        },
+      },
+      BarCodeScreen: {
+        screen: Scanner,
+        navigationOptions: {
+          title: 'Barcode Scanner',
           gesturesEnabled: false,
         },
       },
@@ -145,18 +169,20 @@ export const createRootNavigator = (signedIn = false) => {
         screen: RecipeDetails,
         navigationOptions: {
           gesturesEnabled: false,
+          header: null,
         },
       },
       FridgeIngredientScreen: {
         screen: FridgeIngredient,
         navigationOptions: {
           gesturesEnabled: true,
+          header: null,
         },
       },
     },
     {
-      headerMode: 'none',
-      mode: 'modal',
+      mode: 'card',
+      headerMode: 'screen',
       initialRouteName: signedIn ? 'SignedIn' : 'SignedOut',
     },
   );

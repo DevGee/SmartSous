@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Text, View, StyleSheet, Alert } from 'react-native';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
-export default class App extends Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+  },
+});
+
+class BarcodeScanner extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +35,7 @@ export default class App extends Component {
   _handleBarCodeRead = (data) => {
     //this.setState({ visible: !this.state.visible });
     this.props.visibleHandler(false);
+    // Put POST request here to send barcode data to server
     Alert.alert(
       'Scan successful!',
       JSON.stringify(data),
@@ -32,7 +43,6 @@ export default class App extends Component {
   };
 
   render() {
-    //if (this.state.visible) {
     return (
       <View style={styles.container}>
         {this.state.hasCameraPermission === null ?
@@ -41,7 +51,7 @@ export default class App extends Component {
             <Text>Camera permission is not granted</Text> :
             <BarCodeScanner
               onBarCodeRead={this._handleBarCodeRead}
-              style={{ height: 200, width: 200 }}
+              style={{ height: 350, width: 350 }}
             />
         }
       </View>
@@ -49,12 +59,4 @@ export default class App extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-  },
-});
+export default BarcodeScanner;
