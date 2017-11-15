@@ -26,6 +26,19 @@ const styles = StyleSheet.create({
   recipeScreen: {
     paddingTop: 10,
   },
+  scrollList: {
+    height: 545,
+  },
+  foodPicContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    width: '100%',
+    height: 200,
+  },
+  foodPic: {
+    width: '100%',
+    height: '100%',
+  },
 });
 
 class RecipeDetails extends Component {
@@ -36,9 +49,9 @@ class RecipeDetails extends Component {
     return (
       <View style={styles.recipeScreen}>
         <Card title={this.props.navigation.state.params.itemRow.title}>
-          <ScrollView style={{ height: 525 }}>
-            <View style={{ width: 300, height: 200 }}>
-              <Image style={{ width: '100%', height: '100%' }} resizeMode='cover' source={{ uri: newUrl }}/>
+          <ScrollView style={styles.scrollList}>
+            <View style={styles.foodPicContainer}>
+              <Image style={styles.foodPic} resizeMode='cover' source={{ uri: newUrl }}/>
             </View>
             <View style={styles.modalContent}>
               <Text>{this.props.navigation.state.params.itemRow.title}</Text>

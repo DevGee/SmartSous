@@ -176,7 +176,6 @@ export const createRootNavigator = (signedIn = false) => {
         screen: FridgeIngredient,
         navigationOptions: {
           gesturesEnabled: true,
-          header: null,
         },
       },
     },

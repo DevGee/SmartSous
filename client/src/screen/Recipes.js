@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   },
   listScreen: {
     paddingTop: 23,
+    flex: 1,
   },
 });
 
@@ -52,7 +53,7 @@ class Recipes extends Component {
     this.setState({ loading: true });
     axios.get(url)
       .then(res => {
-        //console.log(res);
+        // console.log(res);
         this.setState({
           // data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
           data: page === 1 ? res.data : [...this.state.data, ...res.data],
@@ -61,7 +62,7 @@ class Recipes extends Component {
         });
       })
       .catch(error => {
-        //console.log(error);
+        // console.log(error);
       });
   };
 
@@ -131,23 +132,24 @@ class Recipes extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <View style={styles.container}>
+        <View>
           <ActivityIndicator size="large"/>
         </View>
       );
     }
     return (
-      <FlatList
-        style={styles.listScreen}
-        data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
-        renderItem={this.renderRecipe}
-        keyExtractor={item => item.rec_id}
-        ItemSeparatorComponent={this.renderSeparator}
-        ListHeaderComponent={this.renderHeader}
-        ListFooterComponent={this.renderFooter}
-        // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
-        // onEndReachedThreshold={0.01}
-      />
+      <View style={styles.listScreen}>
+        <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />
+        <FlatList
+          data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
+          renderItem={this.renderRecipe}
+          keyExtractor={item => item.rec_id}
+          ItemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderFooter}
+          // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
+          // onEndReachedThreshold={0.01}
+        />
+      </View>
     );
   }
 }
