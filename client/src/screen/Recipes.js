@@ -49,6 +49,7 @@ class Recipes extends Component {
     const { page, seed } = this.state;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
     const url = `http://198.199.98.149:5000/api/rec_names`;
+    this.setState({ loading: true });
     axios.get(url)
       .then(res => {
         //console.log(res);
@@ -128,6 +129,13 @@ class Recipes extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator size="large"/>
+        </View>
+      );
+    }
     return (
       <FlatList
         style={styles.listScreen}
