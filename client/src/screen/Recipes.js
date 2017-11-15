@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
   listContainer: {
     backgroundColor: 'white',
   },
+  listScreen: {
+    paddingTop: 23,
+  },
 });
 
 class Recipes extends Component {
@@ -127,6 +130,7 @@ class Recipes extends Component {
   render() {
     return (
       <FlatList
+        style={styles.listScreen}
         data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
         renderItem={this.renderRecipe}
         keyExtractor={item => item.rec_id}

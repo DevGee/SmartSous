@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: -1,
   },
-
+  recipeScreen: {
+    paddingTop: 10,
+  },
 });
 
 class RecipeDetails extends Component {
@@ -32,24 +34,26 @@ class RecipeDetails extends Component {
     const newUrl = imageUrl.replace('70x70/', '750x750/');
 
     return (
-      <Card title={this.props.navigation.state.params.itemRow.title}>
-        <ScrollView style={{ height: 525 }}>
-          <View style={{ width: 300, height: 200 }}>
-            <Image style={{ width: '100%', height: '100%' }} resizeMode='cover' source={{ uri: newUrl }}/>
-          </View>
-          <View style={styles.modalContent}>
-            <Text>{this.props.navigation.state.params.itemRow.title}</Text>
-            <Text>Cook time: {this.props.navigation.state.params.itemRow.cooktime}</Text>
-            <Text>Servings: {this.props.navigation.state.params.itemRow.servings}</Text>
-            <Text>Ingredients: {this.props.navigation.state.params.itemRow.ingr}</Text>
-            <Text>Instructions: {this.props.navigation.state.params.itemRow.instr}</Text>
-          </View>
-        </ScrollView>
-        <Icon name="close"
-          size={22} containerStyle={styles.icon}
-          onPress={() => this.props.navigation.goBack()}
-        />
-      </Card>
+      <View style={styles.recipeScreen}>
+        <Card title={this.props.navigation.state.params.itemRow.title}>
+          <ScrollView style={{ height: 525 }}>
+            <View style={{ width: 300, height: 200 }}>
+              <Image style={{ width: '100%', height: '100%' }} resizeMode='cover' source={{ uri: newUrl }}/>
+            </View>
+            <View style={styles.modalContent}>
+              <Text>{this.props.navigation.state.params.itemRow.title}</Text>
+              <Text>Cook time: {this.props.navigation.state.params.itemRow.cooktime}</Text>
+              <Text>Servings: {this.props.navigation.state.params.itemRow.servings}</Text>
+              <Text>Ingredients: {this.props.navigation.state.params.itemRow.ingr}</Text>
+              <Text>Instructions: {this.props.navigation.state.params.itemRow.instr}</Text>
+            </View>
+          </ScrollView>
+          <Icon name="close"
+            size={22} containerStyle={styles.icon}
+            onPress={() => this.props.navigation.goBack()}
+          />
+        </Card>
+      </View>
     );
   }
 }
