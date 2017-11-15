@@ -43,22 +43,23 @@ const styles = StyleSheet.create({
 
 class RecipeDetails extends Component {
   render() {
-    const imageUrl = this.props.navigation.state.params.itemRow.pic_url;
+    const navItemObj = this.props.navigation.state.params.itemRow;
+    const imageUrl = navItemObj.pic_url;
     const newUrl = imageUrl.replace('70x70/', '750x750/');
 
     return (
       <View style={styles.recipeScreen}>
-        <Card title={this.props.navigation.state.params.itemRow.title}>
+        <Card title={navItemObj.title}>
           <ScrollView style={styles.scrollList}>
             <View style={styles.foodPicContainer}>
               <Image style={styles.foodPic} resizeMode='cover' source={{ uri: newUrl }}/>
             </View>
             <View style={styles.modalContent}>
-              <Text>{this.props.navigation.state.params.itemRow.title}</Text>
-              <Text>Cook time: {this.props.navigation.state.params.itemRow.cooktime}</Text>
-              <Text>Servings: {this.props.navigation.state.params.itemRow.servings}</Text>
-              <Text>Ingredients: {this.props.navigation.state.params.itemRow.ingr}</Text>
-              <Text>Instructions: {this.props.navigation.state.params.itemRow.instr}</Text>
+              <Text>{navItemObj.title}</Text>
+              <Text>Cook time: {navItemObj.cooktime}</Text>
+              <Text>Servings: {navItemObj.servings}</Text>
+              <Text>Ingredients: {navItemObj.ingr}</Text>
+              <Text>Instructions: {navItemObj.instr}</Text>
             </View>
           </ScrollView>
           <Icon name="close"

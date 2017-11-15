@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
-import BarcodeScanner from '../components/BarcodeScanner/BarcodeScanner';
+import BarcodeScanner from '../components/BarcodeScanner/BarcodeScanner'; // Use react-native-camera
 
 const styles = StyleSheet.create({
   container: {
@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   },
   textBox: {
     height: 100,
+    fontSize: 14,
   },
 });
 
@@ -40,7 +41,8 @@ class Scanner extends React.Component {
           onPress={() => this.toggleCamera()}
           title='Open Camera'
         /> }
-        {this.state.visible && <Text style={styles.textBox}>Move barcode over the camera to scan</Text>}
+        {this.state.visible &&
+        <Text style={styles.textBox}>Move barcode over the camera to scan</Text>}
       </View>
     );
   }

@@ -52,7 +52,7 @@ class Recipes extends Component {
     const url = `http://198.199.98.149:5000/api/rec_names`;
     this.setState({ loading: true });
     axios.get(url)
-      .then(res => {
+      .then((res) => {
         // console.log(res);
         this.setState({
           // data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
@@ -61,8 +61,8 @@ class Recipes extends Component {
           refreshing: false,
         });
       })
-      .catch(error => {
-        // console.log(error);
+      .catch((err) => {
+        // console.log(err);
       });
   };
 
@@ -105,7 +105,9 @@ class Recipes extends Component {
   };
 
   renderFooter = () => {
-    if (!this.state.loading) return null;
+    if (!this.state.loading) {
+      return null;
+    }
     return (
       <View style={styles.footer}>
         <ActivityIndicator animating size="large" />

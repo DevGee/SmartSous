@@ -1,5 +1,8 @@
 import Expo from 'expo';
 
+// Use react-native-google-signin (better) or
+// react-native-oauth
+
 signInWithGoogleAsync = async () => {
   try {
     const result = await Expo.Google.logInAsync({
