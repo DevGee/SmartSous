@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Avatar, Icon, Text, Button } from 'react-native-elements';
 import axios from 'axios';
 import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
 
@@ -12,12 +12,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 23,
   },
-  pickProfilePic: {
-
+  topContainer: {
+    flex: 1,
+    backgroundColor: 'grey',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 23,
+  },
+  bottomContainer: {
+    flex: 1,
+    backgroundColor: 'lightgrey',
+    alignSelf: 'stretch',
+    alignItems: 'center',
   },
   profileImg: {
     height: 200,
     width: 200,
+  },
+  choosePic: {
+    width: '80%',
+  },
+  logoutButton: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
   },
 });
 class Profile extends Component {
@@ -57,19 +76,28 @@ class Profile extends Component {
     let { image } = this.state;
     return (
       <View style={styles.container}>
-        <View>
-          <Text>Full Name</Text>
+        <View style={styles.topContainer}>
+          <Icon
+            reverse
+            raised
+            size={15}
+            containerStyle={styles.logoutButton}
+            name='exit-to-app'
+            type='MaterialCommunityIcons'
+            onPress={() => this.signOut()}
+          />
+          {image && <Avatar
+            xlarge
+            rounded
+            source={{ uri: image }}/>}
+          <Text h3>Full Name</Text>
         </View>
-        <Button
-          title='Logout'
-          onPress={() => this.signOut()}
-         />
-        <View style={styles.pickProfilePic}>
+        <View style={styles.bottomContainer}>
           <Button
+            style={styles.choosePic}
             title="Choose picture"
             onPress={this._pickImg}
           />
-          {image && <Image style={styles.profileImg} source={{ uri: image }}/>}
         </View>
       </View>
 

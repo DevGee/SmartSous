@@ -5,7 +5,7 @@ import { isSignedIn } from './config/auth';
 
 const styles = StyleSheet.create({
   mainScreen: {
-    marginTop: 23,
+
   },
 });
 

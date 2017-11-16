@@ -41,7 +41,7 @@ class FridgeIngredient extends Component {
       
   }
 
-  minusFood =() => {
+  minusFood = () => {
     // Put request
   }
 
