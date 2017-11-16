@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { Card } from 'react-native-elements';
+import axios from 'axios';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -23,6 +25,20 @@ const styles = StyleSheet.create({
 class FridgeIngredient extends Component {
   addFood = () => {
     // Put request
+    var resultElement;
+    const url = 'http://198.199.98.149:5000/api/fridge/3';
+    axios.post(url,
+      {
+        title: this.props.navigation.state.params.ingredientItem.title,
+        qty: this.props.navigation.state.params.ingredientItem.qty + 1
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      
   }
 
   minusFood =() => {
