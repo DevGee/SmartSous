@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -16,9 +16,16 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#CED0CE',
   },
+  listContainer: {
+    backgroundColor: 'white',
+  },
+  listScreen: {
+    paddingTop: 23,
+    flex: 1,
+  },
 });
 
-class Recipes extends React.Component {
+class Recipes extends Component {
   constructor(props) {
     super(props);
 
@@ -31,7 +38,7 @@ class Recipes extends React.Component {
       error: null,
       refreshing: false,
       searchText: '',
-      isModalVisible: false,
+      inRecipe: false,
     };
   }
 
@@ -43,9 +50,10 @@ class Recipes extends React.Component {
     const { page, seed } = this.state;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
     const url = `http://198.199.98.149:5000/api/rec_names`;
+    this.setState({ loading: true });
     axios.get(url)
-      .then(res => {
-        //console.log(res);
+      .then((res) => {
+        // console.log(res);
         this.setState({
           // data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
           data: page === 1 ? res.data : [...this.state.data, ...res.data],
@@ -53,21 +61,22 @@ class Recipes extends React.Component {
           refreshing: false,
         });
       })
-      .catch(error => {
-        //console.log(error);
+      .catch((err) => {
+        // console.log(err);
       });
   };
 
-  // handleLoadMore = () => {
-  //   this.setState(
-  //     {
-  //       page: this.state.page + 1,
-  //     },
-  //     () => {
-  //       this.getData();
-  //     },
-  //   );
-  // };
+  // Set this up when we need to handle infinite scrolling
+  /* handleLoadMore = () => {
+    this.setState(
+      {
+        page: this.state.page + 1,
+      },
+      () => {
+        this.getData();
+      },
+    );
+  }; */
 
   filterData = (e) => {
     let updatedData = this.state.data.slice();
@@ -92,11 +101,13 @@ class Recipes extends React.Component {
   };
 
   renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." onChange={this.filterData} lightTheme />; // Use onChange
+    return <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />;
   };
 
   renderFooter = () => {
-    if (!this.state.loading) return null;
+    if (!this.state.loading) {
+      return null;
+    }
     return (
       <View style={styles.footer}>
         <ActivityIndicator animating size="large" />
@@ -121,17 +132,26 @@ class Recipes extends React.Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <View>
+          <ActivityIndicator size="large"/>
+        </View>
+      );
+    }
     return (
-      <FlatList
-        data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
-        renderItem={this.renderRecipe}
-        keyExtractor={item => item.rec_id}
-        ItemSeparatorComponent={this.renderSeparator}
-        ListHeaderComponent={this.renderHeader}
-        ListFooterComponent={this.renderFooter}
-        // onEndReached={this.handleLoadMore}
-        // onEndReachedThreshold={0.01}
-      />
+      <View style={styles.listScreen}>
+        <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />
+        <FlatList
+          data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
+          renderItem={this.renderRecipe}
+          keyExtractor={item => item.rec_id}
+          ItemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderFooter}
+          // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
+          // onEndReachedThreshold={0.01}
+        />
+      </View>
     );
   }
 }
