@@ -47,8 +47,10 @@ const styles = StyleSheet.create({
   },
   quadrantFour: {
     flex: 1,
+    alignItems: 'center',
     backgroundColor: 'yellow',
     alignSelf: 'stretch',
+    justifyContent: 'center',
   },
 });
 
@@ -71,6 +73,14 @@ class Home extends React.Component {
         />
         <View style={styles.top}>
           <View style={styles.quadrantOne}>
+          </View>
+          <View style={styles.quadrantTwo}>
+          </View>
+        </View>
+        <View style={styles.bottom}>
+          <View style={styles.quadrantThree}>
+          </View>
+          <View style={styles.quadrantFour}>
             <Icon
               reverse
               raised
@@ -80,14 +90,6 @@ class Home extends React.Component {
               type='material-community'
               onPress={() => this.props.navigation.navigate('BarCodeScreen')}
             />
-          </View>
-          <View style={styles.quadrantTwo}>
-          </View>
-        </View>
-        <View style={styles.bottom}>
-          <View style={styles.quadrantThree}>
-          </View>
-          <View style={styles.quadrantFour}>
           </View>
         </View>
       </View>

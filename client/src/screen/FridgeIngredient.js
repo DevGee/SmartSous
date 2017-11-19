@@ -25,12 +25,11 @@ const styles = StyleSheet.create({
 class FridgeIngredient extends Component {
   addFood = () => {
     // Put request
-    var resultElement;
     const url = 'http://198.199.98.149:5000/api/fridge/3';
     axios.post(url,
       {
-        title: this.props.navigation.state.params.ingredientItem.title,
-        qty: this.props.navigation.state.params.ingredientItem.qty + 1
+        qty: this.props.navigation.state.params.ingredientItem.qty + 1,
+        title: this.props.navigation.state.params.ingredientItem.title, 
       })
       .then(function (response) {
         console.log(response);

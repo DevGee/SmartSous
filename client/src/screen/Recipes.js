@@ -23,6 +23,11 @@ const styles = StyleSheet.create({
     paddingTop: 23,
     flex: 1,
   },
+  loadingScreen: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 class Recipes extends Component {
@@ -49,7 +54,7 @@ class Recipes extends Component {
   getData = () => {
     const { page, seed } = this.state;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
-    const url = `http://198.199.98.149:5000/api/rec_names`;
+    const url = `http://198.199.98.149:5000/api/rec_names/`;
     this.setState({ loading: true });
     axios.get(url)
       .then((res) => {
@@ -82,7 +87,7 @@ class Recipes extends Component {
     let updatedData = this.state.data.slice();
     let searchText = '';
     updatedData = updatedData.filter((item) => {
-      searchText = e.nativeEvent.text.toLowerCase();
+      searchText = e.toLowerCase();
       // return item.name.first.toLowerCase().search(searchText) !== -1;
       return item.title.toLowerCase().search(searchText) !== -1;
     });
@@ -100,9 +105,9 @@ class Recipes extends Component {
     );
   };
 
-  renderHeader = () => {
-    return <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />;
-  };
+  // renderHeader = () => {
+  //   return <SearchBar placeholder="Search..." onChange={this.filterData} clearIcon onClearText={this.filterData} lightTheme />;
+  // };
 
   renderFooter = () => {
     if (!this.state.loading) {
@@ -134,14 +139,14 @@ class Recipes extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <View>
+        <View style={styles.loadingScreen}>
           <ActivityIndicator size="large"/>
         </View>
       );
     }
     return (
       <View style={styles.listScreen}>
-        <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />
+        <SearchBar placeholder="Search..." onChangeText={this.filterData} clearIcon lightTheme />
         <FlatList
           data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
           renderItem={this.renderRecipe}
@@ -149,7 +154,7 @@ class Recipes extends Component {
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
           // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
-          // onEndReachedThreshold={0.01}
+          onEndReachedThreshold={0.01}
         />
       </View>
     );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Image, StyleSheet, ScrollView, Text, View } from 'react-native';
 import { Icon, Card } from 'react-native-elements';
 
@@ -39,9 +39,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  title: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    textAlign: 'center',
+  },
 });
 
-class RecipeDetails extends Component {
+class RecipeDetails extends PureComponent {
   render() {
     const navItemObj = this.props.navigation.state.params.itemRow;
     const imageUrl = navItemObj.pic_url;
@@ -49,7 +54,7 @@ class RecipeDetails extends Component {
 
     return (
       <View style={styles.recipeScreen}>
-        <Card title={navItemObj.title}>
+        <Card title={navItemObj.title} titleStyle={styles.title}>
           <ScrollView style={styles.scrollList}>
             <View style={styles.foodPicContainer}>
               <Image style={styles.foodPic} resizeMode='cover' source={{ uri: newUrl }}/>
