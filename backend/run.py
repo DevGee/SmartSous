@@ -41,6 +41,48 @@ def dbQuery(num, mode):
             conn.close()
             return json_data
 
+        elif mode is 3:
+            cur.execute("select rec_id, rec_name, cook_time, servings, pic_url from recipe;")
+
+            rows = cur.fetchall()
+            datalist = []
+
+            for r in rows:
+                data = {"rec_id": r[0],
+                        "title": r[1],
+                        "cooktime": r[2],
+                        "servings": r[3],
+                        "pic_url": r[4]
+                        }
+                datalist.append(data)
+
+            json_data = json.dumps(datalist)
+            cur.close()
+            conn.close()
+            return json_data
+
+        elif mode is 4:
+            cur.execute("select rec_id, rec_name, cook_time, servings, ingred, instr, pic_url from recipe where rec_id =" + str(num) + ";")
+
+            rows = cur.fetchall()
+            datalist = []
+
+            for r in rows:
+                data = {"rec_id": r[0],
+                        "title": r[1],
+                        "cooktime": r[2],
+                        "servings": r[3],
+                        "ingr": r[4],
+                        "instr": r[5],
+                        "pic_url": r[6]
+                        }
+                datalist.append(data)
+
+            json_data = json.dumps(datalist)
+            cur.close()
+            conn.close()
+            return json_data
+
         elif mode is 1:
             cur.execute("select inv from fridge where fr_id = (select fr_id from usr where usr_id=" + str(num) + ");")
 
@@ -79,6 +121,14 @@ def dbQuery(num, mode):
 @app.route('/api/rec_names/', methods=['GET'])
 def get_rec_names():
     return dbQuery(0, 0)
+
+@app.route('/api/rec_names/short/', methods=['GET'])
+def get_rec_names_short():
+    return dbQuery(0, 3)
+
+@app.route('/api/rec_data/<int:rec_id>', methods=['GET'])
+def get_rec_data(rec_id):
+    return dbQuery(rec_id, 4)
 
 @app.route('/')
 def hello_world():
