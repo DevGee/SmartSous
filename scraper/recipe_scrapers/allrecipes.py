@@ -57,3 +57,7 @@ class AllRecipes(AbstractScraper):
 
     def rating_stars(self):
         return float(self.soup.find('meta', {'itemprop': 'ratingValue'})['content'])
+
+    def serving_size(self):
+        #return int(self.soup.find('ul', {'class': 'adjust-servings__form'}))
+        return int(self.soup.find('meta', {'id': 'metaRecipeServings'})['content'])
