@@ -60,9 +60,9 @@ def dbQuery(num, mode):
             conn.close()
             return json_data
         elif mode is 2:
-            data = request.data.decode("utf-8")
+            data = request.data
             #print("trying to update server")
-            print(data)
+            #print(data)
             return data
 
         else:
