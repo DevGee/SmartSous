@@ -63,7 +63,7 @@ class Profile extends Component {
       });
   }
   _pickImg = async () => {
-    let res = await ImagePicker.launchImageLibraryAsync({
+    const res = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
     });
     if (!res.cancelled) {
@@ -73,7 +73,7 @@ class Profile extends Component {
     }
   }
   render() {
-    let { image } = this.state;
+    const { image } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>

@@ -35,7 +35,7 @@ class Recipes extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       data: [],
       dataAfter: [],
       page: 1,
@@ -52,10 +52,10 @@ class Recipes extends Component {
   }
 
   getData = () => {
-    const { page, seed } = this.state;
+    const { page } = this.state;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
-    const url = `http://198.199.98.149:5000/api/rec_names/`;
-    this.setState({ loading: true });
+    const url = 'http://198.199.98.149:5000/api/rec_names/';
+    //this.setState({ loading: true });
     axios.get(url)
       .then((res) => {
         // console.log(res);
@@ -83,6 +83,14 @@ class Recipes extends Component {
     );
   }; */
 
+  handleRefresh = () => {
+    this.setState({
+      refreshing: true,
+    }, () => {
+      this.getData();
+    });
+  };
+
   filterData = (e) => {
     let updatedData = this.state.data.slice();
     let searchText = '';
@@ -104,10 +112,6 @@ class Recipes extends Component {
       />
     );
   };
-
-  // renderHeader = () => {
-  //   return <SearchBar placeholder="Search..." onChange={this.filterData} clearIcon onClearText={this.filterData} lightTheme />;
-  // };
 
   renderFooter = () => {
     if (!this.state.loading) {
@@ -148,13 +152,18 @@ class Recipes extends Component {
       <View style={styles.listScreen}>
         <SearchBar placeholder="Search..." onChangeText={this.filterData} clearIcon lightTheme />
         <FlatList
+          disableVirtualization={false}
           data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
           renderItem={this.renderRecipe}
           keyExtractor={item => item.rec_id}
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
           // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
-          onEndReachedThreshold={0.01}
+          onEndReachedThreshold={1}
+          legacyImplementation={true} // Makes it super fast
+          enableEmptySections // Disables warning
+          refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
         />
       </View>
     );
