@@ -162,6 +162,7 @@ class Recipes extends Component {
           onEndReachedThreshold={1}
           legacyImplementation={true} // Makes it super fast
           enableEmptySections // Disables warning
+          removeClippedSubviews={false} // Fixes not rendering witout scroll
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
         />

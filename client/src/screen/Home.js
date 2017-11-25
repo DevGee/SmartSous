@@ -37,18 +37,18 @@ const styles = StyleSheet.create({
   },
   quadrantTwo: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'lightskyblue',
     alignSelf: 'stretch',
   },
   quadrantThree: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: 'lightskyblue',
     alignSelf: 'stretch',
   },
   quadrantFour: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'yellow',
+    backgroundColor: 'lightblue',
     alignSelf: 'stretch',
     justifyContent: 'center',
   },
