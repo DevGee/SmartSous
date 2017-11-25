@@ -23,6 +23,11 @@ const styles = StyleSheet.create({
     paddingTop: 23,
     flex: 1,
   },
+  loadingScreen: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 class Recipes extends Component {
@@ -30,7 +35,7 @@ class Recipes extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       data: [],
       dataAfter: [],
       page: 1,
@@ -47,10 +52,10 @@ class Recipes extends Component {
   }
 
   getData = () => {
-    const { page, seed } = this.state;
+    const { page } = this.state;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
-    const url = `http://198.199.98.149:5000/api/rec_names`;
-    this.setState({ loading: true });
+    const url = 'http://198.199.98.149:5000/api/rec_names/';
+    //this.setState({ loading: true });
     axios.get(url)
       .then((res) => {
         // console.log(res);
@@ -78,11 +83,19 @@ class Recipes extends Component {
     );
   }; */
 
+  handleRefresh = () => {
+    this.setState({
+      refreshing: true,
+    }, () => {
+      this.getData();
+    });
+  };
+
   filterData = (e) => {
     let updatedData = this.state.data.slice();
     let searchText = '';
     updatedData = updatedData.filter((item) => {
-      searchText = e.nativeEvent.text.toLowerCase();
+      searchText = e.toLowerCase();
       // return item.name.first.toLowerCase().search(searchText) !== -1;
       return item.title.toLowerCase().search(searchText) !== -1;
     });
@@ -98,10 +111,6 @@ class Recipes extends Component {
         style={styles.separator}
       />
     );
-  };
-
-  renderHeader = () => {
-    return <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />;
   };
 
   renderFooter = () => {
@@ -134,22 +143,28 @@ class Recipes extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <View>
+        <View style={styles.loadingScreen}>
           <ActivityIndicator size="large"/>
         </View>
       );
     }
     return (
       <View style={styles.listScreen}>
-        <SearchBar placeholder="Search..." onChange={this.filterData} lightTheme />
+        <SearchBar placeholder="Search..." onChangeText={this.filterData} clearIcon lightTheme />
         <FlatList
+          disableVirtualization={false}
           data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
           renderItem={this.renderRecipe}
           keyExtractor={item => item.rec_id}
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
           // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
-          // onEndReachedThreshold={0.01}
+          onEndReachedThreshold={1}
+          legacyImplementation={true} // Makes it super fast
+          enableEmptySections // Disables warning
+          removeClippedSubviews={false} // Fixes not rendering witout scroll
+          refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
         />
       </View>
     );

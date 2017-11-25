@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
   },
+  textContainer: {
+    position: 'absolute',
+    top: 0,
+  },
 });
 
 class BarcodeScanner extends Component {
@@ -18,6 +22,8 @@ class BarcodeScanner extends Component {
     this.state = {
       hasCameraPermission: null,
       visible: true,
+      foodObj: null,
+      foodApiUrl: '',
     };
   }
 
@@ -32,19 +38,47 @@ class BarcodeScanner extends Component {
     });
   };
 
+  getFoodData(foodUrl) {
+    axios.get(foodUrl)
+      .then((res) => {
+        // Put POST request here to send barcode data to server
+        if (res.data.status === 1) {
+          const foodProduct = res.data.product;
+          const foodData = {
+            status: res.data.status,
+            productName: foodProduct.product_name,
+            genericName: foodProduct.generic_name,
+            frontImageUrl: foodProduct.image_front_url,
+            quantity: foodProduct.quantity,
+          };
+          this.setState({
+            foodObj: foodData,
+          }, () => {
+            Alert.alert(
+              'Scan successful!',
+              this.state.foodObj.productName,
+              this.state.foodObj.frontImageUrl,
+            );
+          });
+        } else {
+          Alert.alert('Product not found!');
+        }
+        this.props.visibleHandler(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   _handleBarCodeRead = (data) => {
-    //this.setState({ visible: !this.state.visible });
-    this.props.visibleHandler(false);
-    // Put POST request here to send barcode data to server
-    Alert.alert(
-      'Scan successful!',
-      JSON.stringify(data),
-    );
+    // this.setState({ visible: !this.state.visible });
+    this.getFoodData(`http://world.openfoodfacts.org/api/v0/product/${data.data}`);
   };
 
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.textContainer}>{this.state.foodApiUrl}</Text>
         <BarCodeScanner
           onBarCodeRead={this._handleBarCodeRead}
           style={{ height: 350, width: 350 }}
@@ -55,3 +89,4 @@ class BarcodeScanner extends Component {
 }
 
 export default BarcodeScanner;
+
