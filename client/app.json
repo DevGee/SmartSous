@@ -2,5 +2,7 @@
   "expo": {
     "sdkVersion": "21.0.0",
     "orientation": "portrait"
-  }
+  },
+  "name": "SmartSous",
+  "displayName": "SmartSous"
 }

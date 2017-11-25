@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, Icon, Text, Button } from 'react-native-elements';
+import { LoginManager } from 'react-native-fbsdk';
 import axios from 'axios';
-import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
+import FBLogin from '../components/FBLogin/FBLogin';
+ // import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
 
 const styles = StyleSheet.create({
   container: {
@@ -49,6 +51,7 @@ class Profile extends Component {
   }
   signOut() {
     this.props.navigation.navigate('SignedOut');
+    LoginManager.logOut();
   }
   getData() {
     const url = 'test';
@@ -62,29 +65,29 @@ class Profile extends Component {
         console.log(err);
       });
   }
-  _pickImg = async () => {
-    const res = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-    });
-    if (!res.cancelled) {
-      this.setState({
-        image: res.uri,
-      });
-    }
-  }
+  // _pickImg = async () => {
+  //   const res = await ImagePicker.launchImageLibraryAsync({
+  //     allowsEditing: true,
+  //   });
+  //   if (!res.cancelled) {
+  //     this.setState({
+  //       image: res.uri,
+  //     });
+  //   }
+  // }
   render() {
     const { image } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <Icon
-            reverse
-            raised
-            size={15}
-            containerStyle={styles.logoutButton}
-            name='exit-to-app'
-            type='MaterialCommunityIcons'
-            onPress={() => this.signOut()}
+          reverse
+          raised
+          size={15}
+          containerStyle={styles.logoutButton}
+          name='exit-to-app'
+          type='MaterialCommunityIcons'
+          onPress={() => this.signOut()}
           />
           {image && <Avatar
             xlarge
@@ -96,7 +99,7 @@ class Profile extends Component {
           <Button
             style={styles.choosePic}
             title="Choose picture"
-            onPress={this._pickImg}
+            // onPress={this._pickImg}
           />
         </View>
       </View>

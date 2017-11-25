@@ -50,7 +50,8 @@ class RecipeDetails extends PureComponent {
   render() {
     const navItemObj = this.props.navigation.state.params.itemRow;
     const imageUrl = navItemObj.pic_url;
-    const newUrl = imageUrl.replace('70x70/', '750x750/');
+    const tempUrl = imageUrl.replace('70x70/', '750x750/');
+    const newUrl = tempUrl.replace('http://', 'https://');
 
     return (
       <View style={styles.recipeScreen}>

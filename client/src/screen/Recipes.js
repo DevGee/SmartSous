@@ -129,12 +129,13 @@ class Recipes extends Component {
   }
 
   renderRecipe = ({ item }) => {
+    const securePicUrl = item.pic_url.replace('http://', 'https://');
     return (
       <RecipeRow
         title={item.title}
         cooktime={item.cooktime}
         servings={item.servings}
-        url={item.pic_url}
+        url={securePicUrl}
         onPress={() => this.navRecipes(item)}
       />
     );
@@ -156,7 +157,7 @@ class Recipes extends Component {
           data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
           renderItem={this.renderRecipe}
           keyExtractor={item => item.rec_id}
-          ItemSeparatorComponent={this.renderSeparator}
+          //ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
           // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
           onEndReachedThreshold={1}

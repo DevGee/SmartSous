@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Text, View, StyleSheet, Alert } from 'react-native';
-import { Constants, BarCodeScanner, Permissions } from 'expo';
+// import { Constants, BarCodeScanner, Permissions } from 'expo';
+import Camera from 'react-native-camera';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
   },
   textContainer: {
     position: 'absolute',
@@ -26,17 +26,6 @@ class BarcodeScanner extends Component {
       foodApiUrl: '',
     };
   }
-
-  componentDidMount() {
-    this._requestCameraPermission();
-  }
-
-  _requestCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({
-      hasCameraPermission: status === 'granted',
-    });
-  };
 
   getFoodData(foodUrl) {
     axios.get(foodUrl)
@@ -61,7 +50,11 @@ class BarcodeScanner extends Component {
             );
           });
         } else {
-          Alert.alert('Product not found!');
+          this.setState({
+            foodObj: null,
+          }, () => {
+            Alert.alert('Product not found!');
+          });
         }
         this.props.visibleHandler(false);
       })
@@ -72,14 +65,14 @@ class BarcodeScanner extends Component {
 
   _handleBarCodeRead = (data) => {
     // this.setState({ visible: !this.state.visible });
-    this.getFoodData(`http://world.openfoodfacts.org/api/v0/product/${data.data}`);
+    this.getFoodData(`https://world.openfoodfacts.org/api/v0/product/${data.data}`);
   };
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.textContainer}>{this.state.foodApiUrl}</Text>
-        <BarCodeScanner
+        <Camera
           onBarCodeRead={this._handleBarCodeRead}
           style={{ height: 350, width: 350 }}
         />
