@@ -19,6 +19,7 @@ def dbQuery(num, mode):
         return e.pgerror
 
     try:
+        # get request for all recipe data
         if mode is 0:
             cur.execute("select rec_id, rec_name, cook_time, servings, ingred, instr, pic_url from recipe;")
 
@@ -41,6 +42,7 @@ def dbQuery(num, mode):
             conn.close()
             return json_data
 
+        # Get request for condensed recipe data
         elif mode is 3:
             cur.execute("select rec_id, rec_name, cook_time, servings, pic_url from recipe;")
 
@@ -60,7 +62,8 @@ def dbQuery(num, mode):
             cur.close()
             conn.close()
             return json_data
-
+        
+        # Get recipe data for single recipe
         elif mode is 4:
             cur.execute("select rec_id, rec_name, cook_time, servings, ingred, instr, pic_url from recipe where rec_id =" + str(num) + ";")
 
@@ -83,6 +86,7 @@ def dbQuery(num, mode):
             conn.close()
             return json_data
 
+        # Get recipe data for a user
         elif mode is 1:
             cur.execute("select inv from fridge where fr_id = (select fr_id from usr where usr_id=" + str(num) + ");")
 
@@ -101,11 +105,57 @@ def dbQuery(num, mode):
             cur.close()
             conn.close()
             return json_data
+
+        # Post request for fridge data
         elif mode is 2:
             data = request.data
             #print("trying to update server")
             #print(data)
+            
+            # Do this Tuesday when Ash can meet,
+            # need to rework structure of data
+            # passed through requests
+
             return data
+
+        # Post request to create community
+        elif mode is 5:
+            creator_id = num
+            name = request.data[0]
+            pass = request.data[1]
+            #insert into comm (comm_name, passwd) values (name, pass) returning comm_id;
+            #new_comm_id = cursor.fetchone()[0]
+            return new_comm_id
+
+        # Post request to join community
+        elif mode is 6:
+            #Pass in unique id and password
+            #Need to check password
+            unique_comm_id = passed in id
+            attempted_pass = passed in pw
+            #select passwd from comm where comm_id = unique_comm_id;
+            truepw = cursor.fetchone()[0]
+            if attempted_pass is truepw
+                #Add current user to the new community
+                #update comm set member_ids = array_append(member_ids, current_usr_id);
+                return 'successfully joined community' + comm_id
+            else
+                #Reject request
+                return 'failed to join community' + comm_id
+
+        # Post request to add item to inventory using barcode
+        elif mode is 7:
+            # Pass in usr_id, name of item, ?qty?
+            # First check if item already exists in fridge
+            # Select * from fridge where fr_id = (select fr_id from usr where usr_id = CURRENT_USR_ID);
+            fridge_data = cursor.fetchall()???
+            fridge_data = jsonify fridgedata
+
+            if KEY in fridge_data
+                then increment quantity
+            else add new item in fridge
+                then increment
+
 
         else:
             return 'unknown mode'
@@ -130,13 +180,17 @@ def get_rec_names_short():
 def get_rec_data(rec_id):
     return dbQuery(rec_id, 4)
 
+@app.route('/api/create_comm/<int:usr_id>', methods=['POST'])
+def create_community(rec_id):
+    return dbQuery(rec_id, 5)
+
 @app.route('/')
 def hello_world():
     """docstring for hello_world"""
     return 'Server is running'
 
 @app.route('/api/fridge/<int:usr_id>', methods=['GET', 'POST'])
-def get_fridge(usr_id):
+def fridge(usr_id):
     if (request.method == 'GET'):
         #fr_dbQuery()
         #return fr_dbQuery(usr_id)

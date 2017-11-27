@@ -1,0 +1,25 @@
+
+CPEN321
+
+
+- Post request to create community
+    - Send name and password
+    - Return unique community id
+
+- Post request to join community
+    - Send unique community id and password
+
+- ?Post request to leave community?
+
+
+- Post request to add items to inventory using barcode scanner
+    - Send name of item (maybe also qty), then increment quantity in backend 
+
+- Post request to leave community
+
+
+- Post/update request to update fridge contents (Need to work with Ash)
+    - Pass user_id, name of item, quantity of item
+
+
+
