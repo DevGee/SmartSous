@@ -86,7 +86,9 @@ def dbQuery(num, mode):
             conn.close()
             return json_data
 
-        # Get recipe data for a user
+        # Get fridge data for a user
+        # NEW FORMAT:
+        # [{"title": "ham", "qty", 5}, {"title": "pizza", "qty", 2}]
         elif mode is 1:
             cur.execute("select inv from fridge where fr_id = (select fr_id from usr where usr_id=" + str(num) + ");")
 
