@@ -118,16 +118,16 @@ def dbQuery(num, mode):
 
 
         # Post request for fridge data
-        #elif mode is 2:
-        #    data = request.data
-        #    #print("trying to update server")
-        #    #print(data)
-        #    
-        #    # Do this Tuesday when Ash can meet,
-        #    # need to rework structure of data
-        #    # passed through requests
+        elif mode is 2:
+            data = request.data
+            #print("trying to update server")
+            print(data)
+            
+            # Do this Tuesday when Ash can meet,
+            # need to rework structure of data
+            # passed through requests
 
-        #    return data
+            return data
 
         ## Post request to create community
         #elif mode is 5:
