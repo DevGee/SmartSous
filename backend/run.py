@@ -101,7 +101,7 @@ def dbQuery(num, mode):
             cur.close()
             conn.close()
             return json_data
-        elif mode is 2:
+        elif mode is 2: # POST request for fridge
             data = request.data
             #print("trying to update server")
             #print(data)
