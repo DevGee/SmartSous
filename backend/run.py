@@ -1,4 +1,5 @@
 from flask import Flask
+
 from flask import request
 import psycopg2
 import json
@@ -98,8 +99,6 @@ def dbQuery(num, mode):
             #rows = rows[0]
             #datalist = []
 
-
-
             print(rows)
             print(type(rows))
 
@@ -119,9 +118,47 @@ def dbQuery(num, mode):
 
         # Post request for fridge data
         elif mode is 2:
-            data = request.data
+            data = request.data.decode('utf-8')
             #print("trying to update server")
             print(data)
+            print(type(data))
+            
+            jdata = json.loads(data)
+            print(type(jdata))
+            print(jdata['title'])
+            item_name = jdata['title']
+
+            cur.execute("select inv from fridge where fr_id = (select fr_id from usr where usr_id=" + str(num) + ");")
+            rows = cur.fetchone()
+            rows = rows[0]
+            #rows = json.dumps(rows)
+            print(rows)
+            print(type(rows))
+            #rows = json.loads(rows)
+
+        
+            for item in rows:
+                #print(item)
+                #print('item[title]: ' + item['title'])
+                #print('item_name: ' + item_name)
+                if item['title'] == item_name:
+                    #print('qty before' + str(item['qty']))
+                    item['qty'] = jdata['qty']
+                    #print('qty after' + str(item['qty']))
+
+            print(rows)
+            print(jdata['userID'])
+            query = "update fridge set inv = \'" + str(json.dumps(rows)) + "\' where fr_id = (select fr_id from usr where fb_id = \'" + str(jdata['userID']) + "\');" 
+            print(query)
+            cur.execute(query)
+            conn.commit()
+        
+            #print(type(rows))
+            #print(data['title'])
+            #for item in data:
+            #    print(item.title)
+            
+            
             
             # Do this Tuesday when Ash can meet,
             # need to rework structure of data
@@ -129,8 +166,9 @@ def dbQuery(num, mode):
 
             return data
 
-        ## Post request to create community
+        # Post request to create community
         #elif mode is 5:
+
         #    creator_id = num
         #    name = request.data[0]
         #    pass = request.data[1]
@@ -155,17 +193,28 @@ def dbQuery(num, mode):
         #        return 'failed to join community' + comm_id
 
         ## Post request to add item to inventory using barcode
-        #elif mode is 7:
-        #    # Pass in usr_id, name of item, ?qty?
-        #    # First check if item already exists in fridge
-        #    # Select * from fridge where fr_id = (select fr_id from usr where usr_id = CURRENT_USR_ID);
-        #    fridge_data = cursor.fetchall()???
-        #    fridge_data = jsonify fridgedata
+        elif mode is 7:
+            data = request.data.decode('utf-8')
+            #print("trying to update server")
+            print(data)
+            print(type(data))
+            
+            data = json.dumps(data)
+            print(type(data))
+            #fbid = data['userID']
+            #itemname = data['title']
 
-        #    if KEY in fridge_data
-        #        then increment quantity
-        #    else add new item in fridge
-        #        then add item to fridge
+            return data
+            # Pass in usr_id, name of item, ?qty?
+            # First check if item already exists in fridge
+            #query = "select inv from fridge where fr_id = (select fr_id from usr where fb_id = " + "\'" + fb_id + "\');"
+            #fridge_data = cursor.fetchall()???
+            #fridge_data = jsonify fridgedata
+
+            #if KEY in fridge_data
+            #    then increment quantity
+            #else add new item in fridge
+            #    then add item to fridge
 
 
         else:
@@ -195,12 +244,16 @@ def get_rec_data(rec_id):
 def create_community(rec_id):
     return dbQuery(rec_id, 5)
 
+@app.route('/api/barcode/', methods=['POST'])
+def barcode():
+    return dbQuery(0, 7)
+
 @app.route('/')
 def hello_world():
     """docstring for hello_world"""
     return 'Server is running'
 
-@app.route('/api/fridge/<int:usr_id>', methods=['GET', 'POST'])
+@app.route('/api/fridge/<int:usr_id>', methods=['GET', 'POST', 'PUT'])
 def fridge(usr_id):
     if (request.method == 'GET'):
         #fr_dbQuery()
