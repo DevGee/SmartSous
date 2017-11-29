@@ -1,0 +1,27 @@
+
+CPEN321
+
+#Planned
+- Post request to create community
+    - Send name and password
+    - Return unique community id
+
+
+#Planned
+- Post request to join community
+    - Send unique community id and password
+
+
+
+#Planned
+- Post request to add items to inventory using barcode scanner
+    - Send name of item (maybe also qty), then increment quantity in backend 
+
+- ?Post request to leave community?
+
+
+- Post/update request to update fridge contents (Need to work with Ash)
+    - Pass user_id, name of item, quantity of item
+
+
+
