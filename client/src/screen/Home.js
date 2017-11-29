@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { LoginManager } from 'react-native-fbsdk';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,8 +15,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 23,
+    zIndex: 1,
   },
   barCodeButton: {
+
+  },
+  communityFridge: {
 
   },
   top: {
@@ -37,26 +42,31 @@ const styles = StyleSheet.create({
   },
   quadrantTwo: {
     flex: 1,
-    backgroundColor: 'lightskyblue',
+    alignItems: 'center',
     alignSelf: 'stretch',
+    justifyContent: 'center',
+    backgroundColor: 'lightskyblue',
   },
   quadrantThree: {
     flex: 1,
-    backgroundColor: 'lightskyblue',
+    alignItems: 'center',
     alignSelf: 'stretch',
+    justifyContent: 'center',
+    backgroundColor: 'lightskyblue',
   },
   quadrantFour: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'lightblue',
     alignSelf: 'stretch',
     justifyContent: 'center',
+    backgroundColor: 'lightblue',
   },
 });
 
 class Home extends React.Component {
   signOut() {
     this.props.navigation.navigate('SignedOut');
+    LoginManager.logOut();
   }
 
   render() {
@@ -75,6 +85,15 @@ class Home extends React.Component {
           <View style={styles.quadrantOne}>
           </View>
           <View style={styles.quadrantTwo}>
+            <Icon
+              reverse
+              raised
+              size={36}
+              containerStyle={styles.communityFridge}
+              name='ios-people'
+              type='ionicon'
+              onPress={() => {}}
+            />
           </View>
         </View>
         <View style={styles.bottom}>

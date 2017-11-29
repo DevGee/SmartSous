@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { ActivityIndicator, StyleSheet, Text, View, FlatList } from 'react-native';
+import { ActivityIndicator, Button, StyleSheet, Text, View, FlatList } from 'react-native';
 import { Metrics, Colors } from '../Containers/Themes';
 import IngredientRow from '../components/IngredientRow/IngredientRow';
 
@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
   listScreen: {
     paddingTop: 23,
   },
+  addHeader: {
+    width: '100%',
+    zIndex: 1,
+  },
 });
 
 class Fridge extends Component {
@@ -42,12 +46,7 @@ class Fridge extends Component {
     this.state = {
       status: 'test Opening the Fridge',
       loading: false,
-      data: [
-        { title: 'eggs', qty: 5 },
-        { title: 'bacon', qty: 2 },
-        { title: 'goldfish', qty: 7 },
-        { title: 'iPhone X\'s', qty: 1 },
-      ],
+      data: [],
       testprop: 'Fridge Ingredients',
       page: 1,
       seed: 1,
@@ -75,13 +74,13 @@ class Fridge extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.setState({ error, loading: false });
       });
   };
 
 // Render a header?
 renderHeader = () =>
-<Text style={[styles.label, styles.sectionHeader]}>{this.state.testprop}</Text>
+<Button onPress={()=>{}} title="Add"/>
+//<Text style={[styles.label, styles.sectionHeader]}>{this.state.testprop}</Text>
 
 // Render a footer?
 renderFooter = () =>
@@ -99,7 +98,7 @@ renderSeparator = () =>
 // item reordering.  Otherwise index is fine
 keyExtractor = (item, index) => index
 
-// How many items should be kept im memory as we scroll?
+// How many items should be kept  im memory as we scroll?
 oneScreensWorth = 20
 
 navIngredients = (item) => {
@@ -109,34 +108,36 @@ navIngredients = (item) => {
 renderIngredient = ({ item }) => {
   return (
     <IngredientRow
-    title={item.title}
-    qty={item.qty}
-    onPress={() => this.navIngredients(item)}
+      title={item.title}
+      qty={item.qty}
+      onPress={() => this.navIngredients(item)}
     />
   );
 }
 
 render() {
-  if (this.state.loading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large"/>
-      </View>
-    );
-  }
+  // if (this.state.loading) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <ActivityIndicator size="large"/>
+  //     </View>
+  //   );
+  // }
 
   return (
-    <FlatList
-    style={styles.listScreen}
-    data={this.state.data}
-    renderItem={this.renderIngredient}
-    keyExtractor={this.keyExtractor}
-    initialNumToRender={this.oneScreensWorth}
-    ListHeaderComponent={this.renderHeader}
-    ListFooterComponent={this.renderFooter}
-    ListEmptyComponent={this.renderEmpty}
-    ItemSeparatorComponent={this.renderSeparator}
-    />
+    <View style={styles.listScreen}>
+      <Button style={styles.addHeader} color='blue' onPress={()=>{}} title="Add"/>
+      <FlatList
+      data={this.state.data}
+      renderItem={this.renderIngredient}
+      keyExtractor={this.keyExtractor}
+      initialNumToRender={this.oneScreensWorth}
+//      ListHeaderComponent={this.renderHeader}
+      ListFooterComponent={this.renderFooter}
+      //ListEmptyComponent={this.renderEmpty}
+      ItemSeparatorComponent={this.renderSeparator}
+      />
+    </View>
   );
 }
 }

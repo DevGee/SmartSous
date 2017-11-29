@@ -44,6 +44,13 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     textAlign: 'center',
   },
+  modalTitle: {
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
+  eachIngr: {
+    textAlign: 'left',
+  },
 });
 
 class RecipeDetails extends PureComponent {
@@ -52,7 +59,7 @@ class RecipeDetails extends PureComponent {
     const imageUrl = navItemObj.pic_url;
     const tempUrl = imageUrl.replace('70x70/', '750x750/');
     const newUrl = tempUrl.replace('http://', 'https://');
-
+    console.log(navItemObj.instr);
     return (
       <View style={styles.recipeScreen}>
         <Card title={navItemObj.title} titleStyle={styles.title}>
@@ -61,11 +68,14 @@ class RecipeDetails extends PureComponent {
               <Image style={styles.foodPic} resizeMode='cover' source={{ uri: newUrl }}/>
             </View>
             <View style={styles.modalContent}>
-              <Text>{navItemObj.title}</Text>
-              <Text>Cook time: {navItemObj.cooktime}</Text>
-              <Text>Servings: {navItemObj.servings}</Text>
-              <Text>Ingredients: {navItemObj.ingr}</Text>
-              <Text>Instructions: {navItemObj.instr}</Text>
+              <Text style={styles.modalTitle}>Ingredients:</Text>
+              {
+                navItemObj.ingr.map((ingr, i) => {
+                  return <Text style={styles.eachIngr} key={i}>{ingr}</Text>;
+                })
+              }
+              <Text style={styles.modalTitle}>Instructions:</Text>
+              <Text>{navItemObj.instr}</Text>
             </View>
           </ScrollView>
           <Icon name="close"

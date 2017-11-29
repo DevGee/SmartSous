@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Text, View, StyleSheet, Alert } from 'react-native';
-// import { Constants, BarCodeScanner, Permissions } from 'expo';
 import Camera from 'react-native-camera';
 
 const styles = StyleSheet.create({
@@ -27,6 +26,21 @@ class BarcodeScanner extends Component {
     };
   }
 
+  postBarcodeFood(food) {
+    const url = 'http://198.199.98.149:5000/api/barcode/';
+    axios.post(url,
+      {
+        userID: global.USERID,
+        name: food,
+      })
+        .then((res) => {
+
+        })
+        .catch((err) => {
+
+        });
+  }
+
   getFoodData(foodUrl) {
     axios.get(foodUrl)
       .then((res) => {
@@ -46,7 +60,10 @@ class BarcodeScanner extends Component {
             Alert.alert(
               'Scan successful!',
               this.state.foodObj.productName,
-              this.state.foodObj.frontImageUrl,
+              [
+                { text: 'OK', onPress: () => this.postBarcodeFood() },
+              ],
+              { cancelable: false },
             );
           });
         } else {

@@ -1,27 +1,16 @@
 import axios from 'axios';
+import { AccessToken } from 'react-native-fbsdk';
 
-export const onSignIn = () => {
-  console.log('handle sign in');
-  // Axios post request for sign in
-  // axios.get('http://198.199.98.149:5000')
-  //   .then((response) => {
-  //     console.log(response.data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  return true;
-};
+global.USERID = null;
 
-export const onSignOut = () => {
-  console.log('handle sign out');
-  // Axios post request for sign out
-  // axios.get('http://198.199.98.149:5000')
-  //   .then((response) => {i
-  //     console.log(response.data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  return false;
+export const getUserID = () => {
+  AccessToken.getCurrentAccessToken()
+    .then((data) => {
+      if (data) {
+        global.USERID = data.userID;
+      }
+    })
+    .catch((err) => {
+      // Catch promise rejection error
+    });
 };
