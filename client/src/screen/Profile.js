@@ -3,7 +3,7 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { Avatar, Icon, Text, Button } from 'react-native-elements';
 import { LoginManager } from 'react-native-fbsdk';
 import axios from 'axios';
- // import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
+// import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
 
 const styles = StyleSheet.create({
   container: {
@@ -65,7 +65,7 @@ class Profile extends Component {
       });
   }
   getProfileInfo() {
-    const url = `https://graph.facebook.com/v2.11/me?fields=name,picture&access_token=${global.ACCESSTOKEN}`;
+    const url = `https://graph.facebook.com/v2.11/me?fields=name,picture.width(720).height(720)&access_token=${global.ACCESSTOKEN}`;
     axios.get(url)
       .then((res) => {
         this.setState({

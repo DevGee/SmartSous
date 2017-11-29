@@ -24,12 +24,9 @@ const styles = StyleSheet.create({
 });
 
 class FridgeIngredient extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     qty: this.props.navigation.state.params.ingredientItem.qty,
-  //   };
-  // }
+  state = {
+    qty: this.props.navigation.state.params.ingredientItem.qty,
+  };
   addFood = () => {
     // Put request
     const url = 'http://198.199.98.149:5000/api/fridge/3';
@@ -40,9 +37,9 @@ class FridgeIngredient extends Component {
         title: this.props.navigation.state.params.ingredientItem.title, 
       })
       .then(function (response) {
-        // this.setState({
-        //   qty: this.state.qty + 1,
-        // });
+        this.setState({
+          qty: this.state.qty + 1,
+        });
       })
       .catch(function (error) {
       });
@@ -57,6 +54,7 @@ class FridgeIngredient extends Component {
         <Card title={this.props.navigation.state.params.ingredientItem.title}>
             <View style={styles.modalContent}>
                 <Text>{`Quantity: ${this.props.navigation.state.params.ingredientItem.qty}`}</Text>
+                <Text>{this.state.qty}</Text>
                 <Button onPress={this.addFood} title="Add More" />
                 <Button onPress={this.minusFood} title="Subtract" />
             </View>
