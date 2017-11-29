@@ -94,19 +94,28 @@ def dbQuery(num, mode):
 
             rows = cur.fetchone()
             rows = rows[0]
-            datalist = []
+            rows = json.dumps(rows)
+            #rows = rows[0]
+            #datalist = []
 
-            for r in rows:
-                data = {"title": r[1], "qty": int(r[0])}
-                datalist.append(data)
+
+
+            print(rows)
+            print(type(rows))
+
+            #for r in rows:
+            #    data = {"title": r[1], "qty": int(r[0])}
+            #    datalist.append(data)
 
             #print(datalist)
-            json_data = json.dumps(datalist)
+            #json_data = json.dumps(datalist)
 
             #print (json_data)
             cur.close()
             conn.close()
-            return json_data
+            #return json_data
+            return rows
+
 
         # Post request for fridge data
         #elif mode is 2:
