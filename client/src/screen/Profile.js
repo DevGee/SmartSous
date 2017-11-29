@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { Avatar, Icon, Text, Button } from 'react-native-elements';
 import { LoginManager } from 'react-native-fbsdk';
 import axios from 'axios';
-import FBLogin from '../components/FBLogin/FBLogin';
  // import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
 
 const styles = StyleSheet.create({
@@ -16,7 +15,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: 'lightskyblue',
     alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'center',
@@ -24,21 +23,17 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'lightblue',
     alignSelf: 'stretch',
     alignItems: 'center',
-  },
-  profileImg: {
-    height: 200,
-    width: 200,
-  },
-  choosePic: {
-    width: '80%',
   },
   logoutButton: {
     position: 'absolute',
     right: 0,
     top: 0,
+  },
+  name: {
+    paddingTop: 30,
   },
 });
 class Profile extends Component {
@@ -47,7 +42,11 @@ class Profile extends Component {
     this.state = {
       data: [], // Full name, username, email
       image: null,
+      name: '',
     };
+  }
+  componentDidMount() {
+    this.getProfileInfo();
   }
   signOut() {
     this.props.navigation.navigate('SignedOut');
@@ -65,16 +64,19 @@ class Profile extends Component {
         console.log(err);
       });
   }
-  // _pickImg = async () => {
-  //   const res = await ImagePicker.launchImageLibraryAsync({
-  //     allowsEditing: true,
-  //   });
-  //   if (!res.cancelled) {
-  //     this.setState({
-  //       image: res.uri,
-  //     });
-  //   }
-  // }
+  getProfileInfo() {
+    const url = `https://graph.facebook.com/v2.11/me?fields=name,picture&access_token=${global.ACCESSTOKEN}`;
+    axios.get(url)
+      .then((res) => {
+        this.setState({
+          name: res.data.name,
+          image: res.data.picture.data.url,
+        });
+      })
+      .catch((err) => {
+        Alert.alert(err);
+      });
+  }
   render() {
     const { image } = this.state;
     return (
@@ -93,14 +95,9 @@ class Profile extends Component {
             xlarge
             rounded
             source={{ uri: image }}/>}
-          <Text h3>Full Name</Text>
+          <Text h3 style={styles.name}>{this.state.name}</Text>
         </View>
         <View style={styles.bottomContainer}>
-          <Button
-            style={styles.choosePic}
-            title="Choose picture"
-            // onPress={this._pickImg}
-          />
         </View>
       </View>
 

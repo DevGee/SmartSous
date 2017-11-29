@@ -61,7 +61,7 @@ class BarcodeScanner extends Component {
               'Scan successful!',
               this.state.foodObj.productName,
               [
-                { text: 'OK', onPress: () => this.postBarcodeFood() },
+                { text: 'OK', onPress: () => this.postBarcodeFood(this.state.foodObj.productName) },
               ],
               { cancelable: false },
             );

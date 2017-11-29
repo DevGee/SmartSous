@@ -24,16 +24,25 @@ const styles = StyleSheet.create({
 });
 
 class FridgeIngredient extends Component {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     qty: this.props.navigation.state.params.ingredientItem.qty,
+  //   };
+  // }
   addFood = () => {
     // Put request
     const url = 'http://198.199.98.149:5000/api/fridge/3';
-    axios.post(url,
+    axios.put(url,
       {
         userID: global.USERID,
         qty: this.props.navigation.state.params.ingredientItem.qty + 1,
         title: this.props.navigation.state.params.ingredientItem.title, 
       })
       .then(function (response) {
+        // this.setState({
+        //   qty: this.state.qty + 1,
+        // });
       })
       .catch(function (error) {
       });

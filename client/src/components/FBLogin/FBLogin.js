@@ -29,6 +29,7 @@ class FBLogin extends Component {
                   .then((data) => {
                     // Maybe POST request for accessToken; data.userID
                     global.USERID = data.userID;
+                    global.ACCESSTOKEN = data.accessToken;
                     this.props.navObj.navigate('SignedIn');
                   })
                   .catch((err) => {
