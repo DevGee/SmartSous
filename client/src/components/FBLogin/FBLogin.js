@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, View } from 'react-native';
 import { AccessToken, LoginButton } from 'react-native-fbsdk';
-import axios from 'axios';
 
 class FBLogin extends Component {
   componentWillMount() {

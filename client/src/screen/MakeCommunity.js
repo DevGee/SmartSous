@@ -27,6 +27,7 @@ class MakeCommunity extends Component {
         password: this.state.pass,
       })
       .then((res) => {
+        global.COMMNAME = this.state.name;
         this.props.navigation.goBack();
       })
       .catch((err) => {

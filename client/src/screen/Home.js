@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
   },
   textTitle: {
+    paddingTop: 15,
     fontSize: 16,
   },
 });

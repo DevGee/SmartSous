@@ -64,6 +64,7 @@ class FridgeIngredient extends Component {
     this.setState({
       qty: this.state.qty + incOrDec,
     });
+    global.PFRIDGEQUANTITY = this.state.qty;
     axios.put(url,
       {
         userID: global.USERID,

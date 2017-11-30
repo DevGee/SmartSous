@@ -3,7 +3,6 @@ import { Platform, StatusBar } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import SignUp from '../screen/SignUp';
-import SignIn from '../screen/SignIn';
 import Home from '../screen/Home';
 import Profile from '../screen/Profile';
 import Recipes from '../screen/Recipes';
@@ -25,12 +24,6 @@ export const SignedOut = StackNavigator({
     screen: SignUp,
     navigationOptions: {
       title: 'SmartSous',
-    },
-  },
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: {
-      title: 'Sign In',
     },
   },
 });

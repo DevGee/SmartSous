@@ -80,11 +80,11 @@ refreshFunction = () => {
 }
 
 navIngredients = (item) => {
-  this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item, refresh: this.refreshFunction });
+  this.props.navigation.navigate('FridgeCommIngredientScreen', { ingredientItem: item, refresh: this.refreshFunction });
 }
 
 navAddIngredients = () => {
-  this.props.navigation.navigate('AddIngredientScreen', { fridge: this.state.data, refresh: this.refreshFunction });
+  this.props.navigation.navigate('AddCommIngredientScreen', { fridge: this.state.data, refresh: this.refreshFunction });
 }
 
 renderIngredient = ({ item }) => {

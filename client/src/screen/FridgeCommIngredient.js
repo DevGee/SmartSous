@@ -61,10 +61,11 @@ class FridgeCommIngredient extends Component {
     } else {
       incOrDec = -1;
     }
-    const url = 'http://198.199.98.149:5000/api/comm_fridge/3';
+    const url = `http://198.199.98.149:5000/api/comm_fridge/${global.USERID}`;
     this.setState({
       qty: this.state.qty + incOrDec,
     });
+    global.COMMFRIDGEQUANTITY = this.state.qty;
     axios.put(url,
       {
         userID: global.USERID,

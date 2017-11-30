@@ -42,7 +42,7 @@ class Fridge extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
+      loading: true,
       data: [],
       refreshing: false,
     };

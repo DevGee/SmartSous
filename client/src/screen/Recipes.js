@@ -82,14 +82,6 @@ class Recipes extends Component {
     });
   }
 
-  renderSeparator = () => {
-    return (
-      <View
-        style={styles.separator}
-      />
-    );
-  };
-
   renderFooter = () => {
     if (!this.state.loading) {
       return null;
