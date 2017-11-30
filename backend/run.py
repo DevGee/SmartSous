@@ -192,29 +192,131 @@ def dbQuery(num, mode):
         #        #Reject request
         #        return 'failed to join community' + comm_id
 
-        ## Post request to add item to inventory using barcode
+        # Post request to add item to inventory using barcode
         elif mode is 7:
             data = request.data.decode('utf-8')
             #print("trying to update server")
             print(data)
             print(type(data))
             
-            data = json.dumps(data)
+            data = json.loads(data)
             print(type(data))
-            #fbid = data['userID']
-            #itemname = data['title']
+            fbid = data['userID']
+            itemname = data['name']
 
-            return data
+            print(fbid)
+            print(itemname)
+
             # Pass in usr_id, name of item, ?qty?
             # First check if item already exists in fridge
-            #query = "select inv from fridge where fr_id = (select fr_id from usr where fb_id = " + "\'" + fb_id + "\');"
-            #fridge_data = cursor.fetchall()???
+            query = "select inv from fridge where fr_id = (select fr_id from usr where fb_id = " + "\'" + fbid + "\');"
+            cur.execute(query)
+
+            fridge_data = cur.fetchone()
+            fridge_data = fridge_data[0]
+            
+            print(type(fridge_data))
+
+            item_exists = False
+            for item in fridge_data:
+                if item['title'] == itemname:
+                    item_exists = True
+                    cur_qty = item['qty']
+                    item['qty'] = cur_qty + 1
+
+            if (not item_exists):
+                #add item to the fridge with qty 1
+                new_item = {}
+                new_item['title'] = itemname
+                new_item['qty'] = 1
+                #json_data = json.dumps(new_item)
+                json_data = new_item
+                print(json_data)
+                fridge_data.append(json_data)
+
+            query = "update fridge set inv = \'" + str(json.dumps(fridge_data)) + "\' where fr_id = (select fr_id from usr where fb_id = \'" + str(fbid) + "\');" 
+            print(query)
+            cur.execute(query)
+            conn.commit()
+            #fridge_data = json.dumps(rows)
             #fridge_data = jsonify fridgedata
 
             #if KEY in fridge_data
             #    then increment quantity
             #else add new item in fridge
             #    then add item to fridge
+
+            return itemname
+    
+
+        ## Post request to add item to inventory using name and qty
+        elif mode is 8:
+            data = request.data.decode('utf-8')
+            data = json.loads(data)
+
+            print(type(data))
+            print(data)
+
+            fbid = data['userID']
+            itemname = data['title']
+            quantity = data['qty']
+
+            print(fbid)
+            
+            query = "select inv from fridge where fr_id = (select fr_id from usr where fb_id = \'" + str(fbid) + "\');"
+            print(query)
+            cur.execute(query)
+            rows = cur.fetchone()
+            rows = rows[0]
+
+            print(rows)
+
+            newitem = {}
+            newitem['title'] = itemname
+            newitem['qty'] = quantity
+
+            print(newitem)
+
+            rows.append(newitem)
+            print('just before updating inv')
+
+            query = "update fridge set inv = \'" + str(json.dumps(rows)) + "\' where fr_id = (select fr_id from usr where fb_id = \'" + str(fbid) + "\');" 
+            print(query)
+            cur.execute(query)
+            conn.commit()
+
+            return itemname
+
+        elif mode is 9:
+            data = request.data.decode('utf-8')
+            data = json.loads(data)
+
+            print(type(data))
+            print(data)
+
+            fbid = data['userID']
+            itemname = data['title']
+
+            print(fbid)
+            
+            query = "select inv from fridge where fr_id = (select fr_id from usr where fb_id = \'" + str(fbid) + "\');"
+            print(query)
+            cur.execute(query)
+            rows = cur.fetchone()
+            rows = rows[0]
+
+            print(rows)
+
+            print('just before updating inv')
+
+            rows[:] = [item for item in rows if item.get('title') != itemname]
+            query = "update fridge set inv = \'" + str(json.dumps(rows)) + "\' where fr_id = (select fr_id from usr where fb_id = \'" + str(fbid) + "\');" 
+            print(query)
+            cur.execute(query)
+            conn.commit()
+
+            return itemname
+
 
 
         else:
@@ -247,6 +349,14 @@ def create_community(rec_id):
 @app.route('/api/barcode/', methods=['POST'])
 def barcode():
     return dbQuery(0, 7)
+
+@app.route('/api/fridge_add/', methods=['POST'])
+def fridge_add():
+    return dbQuery(0, 8)
+
+@app.route('/api/fridge_delete/', methods=['PUT'])
+def fridge_delete():
+    return dbQuery(0, 9)
 
 @app.route('/')
 def hello_world():
