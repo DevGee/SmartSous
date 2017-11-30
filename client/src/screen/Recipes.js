@@ -55,7 +55,6 @@ class Recipes extends Component {
     const { page } = this.state;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
     const url = 'http://198.199.98.149:5000/api/rec_names/';
-    //this.setState({ loading: true });
     axios.get(url)
       .then((res) => {
         // console.log(res);

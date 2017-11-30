@@ -15,13 +15,16 @@ class FBLogin extends Component {
         // Catch promise rejection error
       });
   }
+  signOut() {
+    this.props.navObj.navigate('SignedOut');
+  }
   render() {
     return (
         <LoginButton
           onLoginFinished={
             (err, res) => {
               if (err) {
-                Alert.alert(`Login has error: ${res.error}`);
+                // Alert.alert(`Login has error: ${res.error}`);
               } else if (res.isCancelled) {
                 // Login is cancelled
               } else {
@@ -38,6 +41,7 @@ class FBLogin extends Component {
               }
             }
           }
+          onLogoutFinished={() => this.signOut()}
         />
     );
   }

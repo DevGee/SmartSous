@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Button, Card, Icon } from 'react-native-elements';
 import axios from 'axios';
 import { getUserID } from '../config/auth';
 
@@ -16,47 +16,134 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: 'white',
     padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  quantityText: {
+    fontSize: 18,
+    paddingBottom: 10,
+    textAlign: 'center',
+  },
+  addbuttonStyle: {
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  removebuttonStyle: {
+    borderRadius: 5,
+  },
+  deleteContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deletebuttonStyle: {
+    marginTop: 35,
+    borderRadius: 5,
+    width: '100%',
+  },
+  icon: {
+    position: 'absolute',
+    top: 0,
+    right: -1,
   },
 });
 
 class FridgeIngredient extends Component {
   state = {
-    qty: this.props.navigation.state.params.ingredientItem.qty,
+    qty: 0,
   };
+  componentDidMount() {
+    this.setState({
+      qty: this.props.navigation.state.params.ingredientItem.qty,
+    });
+  }
+
   addFood = () => {
     // Put request
+    this.setState({
+      qty: this.state.qty + 1,
+    });
     const url = 'http://198.199.98.149:5000/api/fridge/3';
     axios.put(url,
       {
         userID: global.USERID,
-        qty: this.props.navigation.state.params.ingredientItem.qty + 1,
-        title: this.props.navigation.state.params.ingredientItem.title, 
+        qty: this.state.qty + 1,
+        title: this.props.navigation.state.params.ingredientItem.title,
       })
       .then(function (response) {
-        this.setState({
-          qty: this.state.qty + 1,
-        });
+        
+        console.log(res.data);
       })
       .catch(function (error) {
+        console.log(error);
       });
+    this.props.navigation.state.params.refresh();
   }
 
   minusFood = () => {
     // Put request
+    this.setState({
+      qty: this.state.qty - 1,
+    });
+    const url = 'http://198.199.98.149:5000/api/fridge/3';
+    axios.put(url,
+      {
+        userID: global.USERID,
+        qty: this.state.qty - 1,
+        title: this.props.navigation.state.params.ingredientItem.title,
+      })
+      .then(function (response) {
+        
+        console.log(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    this.props.navigation.state.params.refresh();
+  }
+
+  deleteFood = () => {
+    const url = 'http://198.199.98.149:5000/api/fridge_delete';
+    axios.put(url,
+      {
+        userID: global.USERID,
+        title: this.props.navigation.state.params.ingredientItem.title,
+      })
+      .then((res) => {
+        this.props.navigation.state.params.refresh();
+        this.props.navigation.goBack();
+      })
+      .catch((err) => {
+
+      });
+  }
+
+  confirmDelete = () => {
+    Alert.alert(
+      'Confirm Delete',
+      `Are you sure you want to delete ${this.props.navigation.state.params.ingredientItem.title}?`,
+      [
+        { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+        { text: 'OK', onPress: () => this.deleteFood() },
+      ],
+      { cancelable: false },
+    );
   }
 
   render() {
     return (
         <Card title={this.props.navigation.state.params.ingredientItem.title}>
+            <Icon
+              size={22} 
+              containerStyle={styles.icon}
+              name="trash-o"
+              type="font-awesome"
+              color="crimson"
+              onPress={this.confirmDelete}
+            />
             <View style={styles.modalContent}>
-                <Text>{`Quantity: ${this.props.navigation.state.params.ingredientItem.qty}`}</Text>
-                <Text>{this.state.qty}</Text>
-                <Button onPress={this.addFood} title="Add More" />
-                <Button onPress={this.minusFood} title="Subtract" />
+                <Text style={styles.quantityText}>{`Quantity: ${this.state.qty}`}</Text>
+                <Button buttonStyle={styles.addbuttonStyle} backgroundColor="lightskyblue" onPress={this.addFood} title="Add"/>
+                <Button buttonStyle={styles.removebuttonStyle} backgroundColor="lightskyblue" onPress={this.minusFood} title="Remove"/>
             </View>
         </Card>
     );

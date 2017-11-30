@@ -9,8 +9,11 @@ import Profile from '../screen/Profile';
 import Recipes from '../screen/Recipes';
 import Fridge from '../screen/Fridge';
 import FridgeIngredient from '../screen/FridgeIngredient';
+import AddIngredient from '../screen/AddIngredient';
 import RecipeDetails from '../screen/RecipeDetails';
 import Scanner from '../screen/Scanner';
+import MakeCommunity from '../screen/MakeCommunity';
+import JoinCommunity from '../screen/JoinCommunity';
 
 import { TabIconMat, TabIconFA } from '../components/TabIcon/TabIcon';
 
@@ -93,7 +96,7 @@ export const SignedIn = TabNavigator(
       style: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       },
-      activeTintColor: 'grey',
+      activeTintColor: 'lightskyblue',
       inactiveTintColor: 'black',
     },
   },
@@ -127,6 +130,20 @@ export const FridgeIngredientScreen = StackNavigator(
   },
 );
 
+export const AddIngredientScreen = StackNavigator(
+  {
+    Fridge: {
+      screen: Fridge,
+    },
+    AddIngredient: {
+      screen: AddIngredient,
+    },
+  },
+  {
+    mode: 'modal',
+  },
+);
+
 export const BarCodeScreen = StackNavigator(
   {
     Home: {
@@ -138,6 +155,34 @@ export const BarCodeScreen = StackNavigator(
   },
   {
     mode: 'card',
+  },
+);
+
+export const MakeCommScreen = StackNavigator(
+  {
+    Home: {
+      screen: Home,
+    },
+    MakeComm: {
+      screen: MakeCommunity,
+    },
+  },
+  {
+    mode: 'modal',
+  },
+);
+
+export const JoinCommScreen = StackNavigator(
+  {
+    Home: {
+      screen: Home,
+    },
+    MakeComm: {
+      screen: JoinCommunity,
+    },
+  },
+  {
+    mode: 'modal',
   },
 );
 
@@ -176,6 +221,27 @@ export const createRootNavigator = (signedIn = false) => {
         screen: FridgeIngredient,
         navigationOptions: {
           gesturesEnabled: true,
+        },
+      },
+      AddIngredientScreen: {
+        screen: AddIngredient,
+        navigationOptions: {
+          title: 'Add Ingredient',
+          gesturesEnabled: true,
+        },
+      },
+      MakeCommScreen: {
+        screen: MakeCommunity,
+        navigationOptions: {
+          title: 'Make Community',
+          gesturesEnabled: false,
+        },
+      },
+      JoinCommScreen: {
+        screen: JoinCommunity,
+        navigationOptions: {
+          title: 'Join Community',
+          gesturesEnabled: false,
         },
       },
     },

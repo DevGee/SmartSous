@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { ActivityIndicator, Button, StyleSheet, Text, View, FlatList } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, FlatList } from 'react-native';
+import { Button } from 'react-native-elements';
 import { Metrics, Colors } from '../Containers/Themes';
 import IngredientRow from '../components/IngredientRow/IngredientRow';
 
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
   },
   listScreen: {
     paddingTop: 23,
+    height: '80%',
   },
   addHeader: {
     width: '100%',
@@ -63,7 +65,6 @@ class Fridge extends Component {
   getData = () => {
     // const { page, seed } = this.state;
     const url = 'http://198.199.98.149:5000/api/fridge/3';
-    this.setState({ loading: true });
     axios.get(url)
       .then(res => {
         this.setState({
@@ -77,10 +78,13 @@ class Fridge extends Component {
       });
   };
 
-// Render a header?
-renderHeader = () =>
-<Button onPress={()=>{}} title="Add"/>
-//<Text style={[styles.label, styles.sectionHeader]}>{this.state.testprop}</Text>
+  handleRefresh = () => {
+    this.setState({
+      refreshing: true,
+    }, () => {
+      this.getData();
+    });
+  };
 
 // Render a footer?
 renderFooter = () =>
@@ -101,8 +105,16 @@ keyExtractor = (item, index) => index
 // How many items should be kept  im memory as we scroll?
 oneScreensWorth = 20
 
+refreshFunction = () => {
+  this.getData();
+}
+
 navIngredients = (item) => {
-  this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item });
+  this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item, refresh: this.refreshFunction });
+}
+
+navAddIngredients = () => {
+  this.props.navigation.navigate('AddIngredientScreen', { fridge: this.state.data, refresh: this.refreshFunction });
 }
 
 renderIngredient = ({ item }) => {
@@ -116,26 +128,26 @@ renderIngredient = ({ item }) => {
 }
 
 render() {
-  // if (this.state.loading) {
-  //   return (
-  //     <View style={styles.container}>
-  //       <ActivityIndicator size="large"/>
-  //     </View>
-  //   );
-  // }
-
+  if (this.state.loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large"/>
+      </View>
+    );
+  }
   return (
     <View style={styles.listScreen}>
-      <Button style={styles.addHeader} color='blue' onPress={()=>{}} title="Add"/>
+      <Button style={styles.addHeader} backgroundColor="lightskyblue" onPress={() => this.navAddIngredients()} title="Add"/>
       <FlatList
       data={this.state.data}
       renderItem={this.renderIngredient}
       keyExtractor={this.keyExtractor}
-      initialNumToRender={this.oneScreensWorth}
 //      ListHeaderComponent={this.renderHeader}
       ListFooterComponent={this.renderFooter}
       //ListEmptyComponent={this.renderEmpty}
       ItemSeparatorComponent={this.renderSeparator}
+      onRefresh={this.handleRefresh}
+      refreshing={this.state.refreshing}
       />
     </View>
   );

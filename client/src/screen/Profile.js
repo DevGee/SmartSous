@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Avatar, Icon, Text, Button } from 'react-native-elements';
+import { Avatar, Icon, Text } from 'react-native-elements';
 import { LoginManager } from 'react-native-fbsdk';
 import axios from 'axios';
-// import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
+import FBLogin from '../components/FBLogin/FBLogin';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,15 +82,7 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
-          <Icon
-          reverse
-          raised
-          size={15}
-          containerStyle={styles.logoutButton}
-          name='exit-to-app'
-          type='MaterialCommunityIcons'
-          onPress={() => this.signOut()}
-          />
+          <FBLogin navObj={this.props.navigation}/>
           {image && <Avatar
             xlarge
             rounded
@@ -104,5 +96,15 @@ class Profile extends Component {
     );
   }
 }
+
+           //<Icon
+          // reverse
+          // raised
+          // size={15}
+          // containerStyle={styles.logoutButton}
+          // name='exit-to-app'
+          // type='MaterialCommunityIcons'
+          // onPress={() => this.signOut()}
+          // />
 
 export default Profile;
