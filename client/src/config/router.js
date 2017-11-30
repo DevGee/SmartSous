@@ -10,6 +10,9 @@ import Recipes from '../screen/Recipes';
 import Fridge from '../screen/Fridge';
 import FridgeIngredient from '../screen/FridgeIngredient';
 import AddIngredient from '../screen/AddIngredient';
+import FridgeCommunity from '../screen/FridgeCommunity';
+import FridgeCommIngredient from '../screen/FridgeCommIngredient';
+import AddCommIngredient from '../screen/AddCommIngredient';
 import RecipeDetails from '../screen/RecipeDetails';
 import Scanner from '../screen/Scanner';
 import MakeCommunity from '../screen/MakeCommunity';
@@ -144,6 +147,34 @@ export const AddIngredientScreen = StackNavigator(
   },
 );
 
+export const FridgeCommIngredientScreen = StackNavigator(
+  {
+    ViewComm: {
+      screen: FridgeCommunity,
+    },
+    FridgeCommIngredient: {
+      screen: FridgeCommIngredient,
+    },
+  },
+  {
+    mode: 'modal',
+  },
+);
+
+export const AddCommIngredientScreen = StackNavigator(
+  {
+    ViewComm: {
+      screen: FridgeCommunity,
+    },
+    AddCommIngredient: {
+      screen: AddCommIngredient,
+    },
+  },
+  {
+    mode: 'modal',
+  },
+);
+
 export const BarCodeScreen = StackNavigator(
   {
     Home: {
@@ -186,6 +217,20 @@ export const JoinCommScreen = StackNavigator(
   },
 );
 
+export const ViewCommScreen = StackNavigator(
+  {
+    Home: {
+      screen: Home,
+    },
+    ViewComm: {
+      screen: FridgeCommunity,
+    },
+  },
+  {
+    mode: 'modal',
+  },
+);
+
 export const createRootNavigator = (signedIn = false) => {
   return StackNavigator(
     {
@@ -207,7 +252,7 @@ export const createRootNavigator = (signedIn = false) => {
         screen: Scanner,
         navigationOptions: {
           title: 'Barcode Scanner',
-          gesturesEnabled: false,
+          gesturesEnabled: true,
         },
       },
       RecipeDetailScreen: {
@@ -230,18 +275,38 @@ export const createRootNavigator = (signedIn = false) => {
           gesturesEnabled: true,
         },
       },
+      FridgeCommIngredientScreen: {
+        screen: FridgeCommIngredient,
+        navigationOptions: {
+          gesturesEnabled: true,
+        },
+      },
+      AddCommIngredientScreen: {
+        screen: AddCommIngredient,
+        navigationOptions: {
+          title: 'Add Community Ingredient',
+          gesturesEnabled: true,
+        },
+      },
       MakeCommScreen: {
         screen: MakeCommunity,
         navigationOptions: {
           title: 'Make Community',
-          gesturesEnabled: false,
+          gesturesEnabled: true,
         },
       },
       JoinCommScreen: {
         screen: JoinCommunity,
         navigationOptions: {
           title: 'Join Community',
-          gesturesEnabled: false,
+          gesturesEnabled: true,
+        },
+      },
+      ViewCommScreen: {
+        screen: FridgeCommunity,
+        navigationOptions: {
+          title: 'Community Fridge',
+          gesturesEnabled: true,
         },
       },
     },

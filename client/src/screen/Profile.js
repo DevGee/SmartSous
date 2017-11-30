@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     position: 'absolute',
-    right: 0,
-    top: 0,
+    bottom: 0,
+    padding: 10,
   },
   name: {
     paddingTop: 30,
@@ -45,13 +45,11 @@ class Profile extends Component {
       name: '',
     };
   }
+
   componentDidMount() {
     this.getProfileInfo();
   }
-  signOut() {
-    this.props.navigation.navigate('SignedOut');
-    LoginManager.logOut();
-  }
+
   getData() {
     const url = 'test';
     axios.get(url)
@@ -82,7 +80,6 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
-          <FBLogin navObj={this.props.navigation}/>
           {image && <Avatar
             xlarge
             rounded
@@ -90,6 +87,9 @@ class Profile extends Component {
           <Text h3 style={styles.name}>{this.state.name}</Text>
         </View>
         <View style={styles.bottomContainer}>
+          <View style={styles.logoutButton}>
+            <FBLogin navObj={this.props.navigation}/>
+          </View>
         </View>
       </View>
 

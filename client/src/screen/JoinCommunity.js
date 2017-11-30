@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Card, FormInput, FormLabel } from 'react-native-elements';
 
 const styles = StyleSheet.create({
-  makeButton: {
+  joinButton: {
     paddingTop: 15,
   },
 });
@@ -43,7 +43,9 @@ class MakeCommunity extends Component {
           <FormLabel>Passphrase</FormLabel>
           <FormInput onChangeText={(pass) => this.setState({ pass })}></FormInput>
           <Button
-            style={styles.makeButton}
+            borderRadius={5}
+            backgroundColor="lightskyblue"
+            style={styles.joinButton}
             title="Join"
             onPress={() => this.submitComm()}
           />

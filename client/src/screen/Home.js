@@ -79,7 +79,7 @@ class Home extends React.Component {
               containerStyle={styles.communityFridge}
               name='ios-people'
               type='ionicon'
-              onPress={() => this.props.navigation.navigate('MakeCommScreen')}
+              onPress={() => this.props.navigation.navigate('ViewCommScreen')}
             />
             <Text style={styles.textTitle}>View Community</Text>
           </View>

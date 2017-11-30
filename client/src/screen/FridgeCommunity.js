@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
     marginTop: Metrics.baseMargin,
   },
   listScreen: {
-    paddingTop: 23,
     flex: 1,
+    paddingTop: 5,
   },
 });
 
-class Fridge extends Component {
+class FridgeCommunity extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,7 @@ class Fridge extends Component {
   }
 
   getData = () => {
-    const url = `http://198.199.98.149:5000/api/fridge/${global.USERID}`;
+    const url = `http://198.199.98.149:5000/api/comm_fridge/${global.USERID}`;
     axios.get(url)
       .then(res => {
         this.setState({
@@ -124,4 +124,5 @@ render() {
 }
 }
 
-export default Fridge;
+export default FridgeCommunity;
+

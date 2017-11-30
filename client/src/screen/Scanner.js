@@ -38,6 +38,8 @@ class Scanner extends React.Component {
       <View style={styles.container}>
         {this.state.visible && <BarcodeScanner visibleHandler={this.handleCamera}/>}
         {!this.state.visible && <Button
+          borderRadius={5}
+          backgroundColor="lightskyblue"
           onPress={() => this.toggleCamera()}
           title='Open Camera'
         /> }

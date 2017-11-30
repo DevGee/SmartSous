@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: 'white',
     padding: 22,
+    borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   quantityText: {
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class FridgeIngredient extends Component {
+class FridgeCommIngredient extends Component {
   state = {
     qty: 0,
   };
@@ -60,7 +61,7 @@ class FridgeIngredient extends Component {
     } else {
       incOrDec = -1;
     }
-    const url = `http://198.199.98.149:5000/api/fridge/${global.USERID}`;
+    const url = 'http://198.199.98.149:5000/api/comm_fridge/3';
     this.setState({
       qty: this.state.qty + incOrDec,
     });
@@ -135,4 +136,4 @@ class FridgeIngredient extends Component {
   }
 }
 
-export default FridgeIngredient;
+export default FridgeCommIngredient;

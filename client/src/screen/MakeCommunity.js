@@ -43,6 +43,8 @@ class MakeCommunity extends Component {
           <FormLabel>Passphrase</FormLabel>
           <FormInput onChangeText={(pass) => this.setState({ pass })}></FormInput>
           <Button
+            borderRadius={5}
+            backgroundColor="lightskyblue"
             style={styles.makeButton}
             title="Make"
             onPress={() => this.submitComm()}
