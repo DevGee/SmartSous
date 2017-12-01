@@ -8,7 +8,7 @@ class IngredientRow extends PureComponent {
           roundAvatar
           title={this.props.title}
           subtitle={`Quantity: ${this.props.qty}`}
-          avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
+          avatar={{ uri: 'https://png.icons8.com/vegetarian-food/win10/100' }}
           onPress={this.props.onPress}
         />
     );

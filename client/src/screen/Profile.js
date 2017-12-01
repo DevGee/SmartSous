@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Avatar, Icon, Text, Button } from 'react-native-elements';
+import { Alert, StyleSheet, View } from 'react-native';
+import { Avatar, Text } from 'react-native-elements';
 import axios from 'axios';
-import { ImagePicker } from 'expo'; // Use ImagePickerIOS after eject; or react-native-image-picker
+import FBLogin from '../components/FBLogin/FBLogin';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: 'lightskyblue',
     alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'center',
@@ -22,36 +22,50 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'lightblue',
     alignSelf: 'stretch',
     alignItems: 'center',
   },
-  profileImg: {
-    height: 200,
-    width: 200,
-  },
-  choosePic: {
-    width: '80%',
-  },
   logoutButton: {
     position: 'absolute',
-    right: 0,
-    top: 0,
+    bottom: 0,
+    padding: 10,
+    paddingBottom: 30,
+  },
+  name: {
+    paddingTop: 30,
+  },
+  topTag: {
+    paddingTop: 50,
+    fontSize: 16,
+  },
+  tags: {
+    fontSize: 16,
+    paddingTop: 12,
   },
 });
 class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      data: [], // Full name, username, email
+      data: null, // comm_id, comm_pw, num_ingr, num_comm_ingr
       image: null,
+      name: '',
     };
   }
-  signOut() {
-    this.props.navigation.navigate('SignedOut');
+
+  componentDidMount() {
+    this.getProfileInfo();
+    this.intervalID = setInterval(() => this.getAccInfo(), 3000);
+    this.getAccInfo();
   }
-  getData() {
-    const url = 'test';
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
+  }
+
+  getAccInfo() {
+    const url = `http://198.199.98.149:5000/api/acct_info/${global.USERID}`;
     axios.get(url)
       .then((res) => {
         this.setState({
@@ -62,42 +76,40 @@ class Profile extends Component {
         console.log(err);
       });
   }
-  _pickImg = async () => {
-    const res = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-    });
-    if (!res.cancelled) {
-      this.setState({
-        image: res.uri,
+
+  getProfileInfo() {
+    const url = `https://graph.facebook.com/v2.11/me?fields=name,picture.width(720).height(720)&access_token=${global.ACCESSTOKEN}`;
+    axios.get(url)
+      .then((res) => {
+        this.setState({
+          name: res.data.name,
+          image: res.data.picture.data.url,
+        });
+      })
+      .catch((err) => {
+        Alert.alert(err);
       });
-    }
   }
   render() {
-    const { image } = this.state;
+    const { image, data } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
-          <Icon
-            reverse
-            raised
-            size={15}
-            containerStyle={styles.logoutButton}
-            name='exit-to-app'
-            type='MaterialCommunityIcons'
-            onPress={() => this.signOut()}
-          />
           {image && <Avatar
             xlarge
             rounded
             source={{ uri: image }}/>}
-          <Text h3>Full Name</Text>
+          <Text h3 style={styles.name}>{this.state.name}</Text>
         </View>
         <View style={styles.bottomContainer}>
-          <Button
-            style={styles.choosePic}
-            title="Choose picture"
-            onPress={this._pickImg}
-          />
+        {data && <View><Text style={styles.topTag}>Fridge: {this.state.data.num_ingr} items</Text></View>}
+        {data && <View><Text style={styles.tags}>Community Fridge: {this.state.data.num_comm_ingr} items</Text></View>}
+        {data && <View><Text style={styles.tags}>Community Name: {this.state.data.comm_name}</Text></View>}
+        {data && <View><Text style={styles.tags}>Community ID: {this.state.data.comm_id}</Text></View>}
+        {data && <View><Text style={styles.tags}>Community Password: {this.state.data.comm_pw}</Text></View>}
+          <View style={styles.logoutButton}>
+            <FBLogin navObj={this.props.navigation}/>
+          </View>
         </View>
       </View>
 

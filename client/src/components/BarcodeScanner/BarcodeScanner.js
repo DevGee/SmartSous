@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Text, View, StyleSheet, Alert } from 'react-native';
-import { Constants, BarCodeScanner, Permissions } from 'expo';
+import Camera from 'react-native-camera';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
   },
   textContainer: {
     position: 'absolute',
@@ -27,16 +26,20 @@ class BarcodeScanner extends Component {
     };
   }
 
-  componentDidMount() {
-    this._requestCameraPermission();
-  }
+  postBarcodeFood(food) {
+    const url = 'http://198.199.98.149:5000/api/barcode/';
+    axios.post(url,
+      {
+        userID: global.USERID,
+        name: food,
+      })
+        .then((res) => {
 
-  _requestCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({
-      hasCameraPermission: status === 'granted',
-    });
-  };
+        })
+        .catch((err) => {
+
+        });
+  }
 
   getFoodData(foodUrl) {
     axios.get(foodUrl)
@@ -57,11 +60,18 @@ class BarcodeScanner extends Component {
             Alert.alert(
               'Scan successful!',
               this.state.foodObj.productName,
-              this.state.foodObj.frontImageUrl,
+              [
+                { text: 'OK', onPress: () => this.postBarcodeFood(this.state.foodObj.productName) },
+              ],
+              { cancelable: false },
             );
           });
         } else {
-          Alert.alert('Product not found!');
+          this.setState({
+            foodObj: null,
+          }, () => {
+            Alert.alert('Product not found!');
+          });
         }
         this.props.visibleHandler(false);
       })
@@ -72,14 +82,14 @@ class BarcodeScanner extends Component {
 
   _handleBarCodeRead = (data) => {
     // this.setState({ visible: !this.state.visible });
-    this.getFoodData(`http://world.openfoodfacts.org/api/v0/product/${data.data}`);
+    this.getFoodData(`https://world.openfoodfacts.org/api/v0/product/${data.data}`);
   };
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.textContainer}>{this.state.foodApiUrl}</Text>
-        <BarCodeScanner
+        <Camera
           onBarCodeRead={this._handleBarCodeRead}
           style={{ height: 350, width: 350 }}
         />

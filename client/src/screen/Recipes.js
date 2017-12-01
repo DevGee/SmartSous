@@ -33,17 +33,12 @@ const styles = StyleSheet.create({
 class Recipes extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
       data: [],
       dataAfter: [],
-      page: 1,
-      seed: 1,
-      error: null,
       refreshing: false,
       searchText: '',
-      inRecipe: false,
     };
   }
 
@@ -52,36 +47,19 @@ class Recipes extends Component {
   }
 
   getData = () => {
-    const { page } = this.state;
-    // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=5`;
     const url = 'http://198.199.98.149:5000/api/rec_names/';
-    //this.setState({ loading: true });
     axios.get(url)
       .then((res) => {
-        // console.log(res);
         this.setState({
-          // data: page === 1 ? res.data.result : [...this.state.data, ...res.data.results],
-          data: page === 1 ? res.data : [...this.state.data, ...res.data],
+          data: res.data,
           loading: false,
           refreshing: false,
         });
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
       });
   };
-
-  // Set this up when we need to handle infinite scrolling
-  /* handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1,
-      },
-      () => {
-        this.getData();
-      },
-    );
-  }; */
 
   handleRefresh = () => {
     this.setState({
@@ -96,7 +74,6 @@ class Recipes extends Component {
     let searchText = '';
     updatedData = updatedData.filter((item) => {
       searchText = e.toLowerCase();
-      // return item.name.first.toLowerCase().search(searchText) !== -1;
       return item.title.toLowerCase().search(searchText) !== -1;
     });
     this.setState({
@@ -104,14 +81,6 @@ class Recipes extends Component {
       searchText,
     });
   }
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={styles.separator}
-      />
-    );
-  };
 
   renderFooter = () => {
     if (!this.state.loading) {
@@ -129,12 +98,13 @@ class Recipes extends Component {
   }
 
   renderRecipe = ({ item }) => {
+    const securePicUrl = item.pic_url.replace('http://', 'https://');
     return (
       <RecipeRow
         title={item.title}
         cooktime={item.cooktime}
         servings={item.servings}
-        url={item.pic_url}
+        url={securePicUrl}
         onPress={() => this.navRecipes(item)}
       />
     );
@@ -156,9 +126,7 @@ class Recipes extends Component {
           data={(this.state.searchText !== '') ? this.state.dataAfter : this.state.data}
           renderItem={this.renderRecipe}
           keyExtractor={item => item.rec_id}
-          ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
-          // onEndReached={this.handleLoadMore} // Use this for infinite scrolling
           onEndReachedThreshold={1}
           legacyImplementation={true} // Makes it super fast
           enableEmptySections // Disables warning
@@ -171,6 +139,4 @@ class Recipes extends Component {
   }
 }
 
-
 export default Recipes;
-
