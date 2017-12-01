@@ -1,256 +1,127 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button, ActivityIndicator, StyleSheet, Text, View, FlatList } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
-import { ApplicationStyles, Metrics, Colors } from '../Containers/Themes'
+import { ActivityIndicator, StyleSheet, View, FlatList } from 'react-native';
+import { Button } from 'react-native-elements';
+import { Metrics, Colors } from '../Containers/Themes';
 import IngredientRow from '../components/IngredientRow/IngredientRow';
-//import Modal from 'react-native-modal';
-//import IngredientCard from '../components/IngredientCard/IngredientCard';
-  
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    row: {
-        flex: 1,
-        backgroundColor: Colors.windowTint,
-        marginVertical: Metrics.smallMargin,
-        justifyContent: 'center'
-      },
-      boldLabel: {
-        fontWeight: 'bold',
-        alignSelf: 'center',
-        color: '#000',
-        textAlign: 'center',
-        marginBottom: Metrics.smallMargin
-      },
-      label: {
-        textAlign: 'center',
-        color: '#000'
-      },
-      listContent: {
-        marginTop: Metrics.baseMargin
-      }
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  row: {
+    flex: 1,
+    backgroundColor: Colors.windowTint,
+    marginVertical: Metrics.smallMargin,
+    justifyContent: 'center',
+  },
+  boldLabel: {
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    color: '#000',
+    textAlign: 'center',
+    marginBottom: Metrics.smallMargin,
+  },
+  label: {
+    textAlign: 'center',
+    color: '#000',
+  },
+  listContent: {
+    marginTop: Metrics.baseMargin,
+  },
+  listScreen: {
+    paddingTop: 23,
+    flex: 1,
+  },
 });
 
 class Fridge extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            status: 'test Opening the Fridge',
-            loading: false,
-            data: [
-                {title: "eggs", qty: 5}, 
-                {title: "bacon", qty: 2}, 
-                {title: "goldfish", qty: 7},
-                {title: "iPhone X's", qty: 1}
-                ],
-            testprop: 'Fridge Ingredients',
-            page: 1,
-            seed: 1,
-            error: null,
-            refreshing: false,
-        };
-     this.navIngredients = this.navIngredients.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      data: [],
+      refreshing: false,
+    };
+  }
 
-    componentDidMount() {
-        this.getData();
-      }
+  componentDidMount() {
+    this.getData();
+  }
 
-    getData = () => {
-        //const { page, seed } = this.state;
-        const url = 'http://198.199.98.149:5000/api/fridge/3';
-        this.setState({ loading: true });
-        axios.get(url)
-          .then(res => {
-            this.setState({
-              data: res.data,
-              loading: false,
-              refreshing: false,
-            });
-          })
-          .catch(error => {
-            console.log(error);
-            this.setState({ error, loading: false });
-          });
-      };
+  getData = () => {
+    const url = `http://198.199.98.149:5000/api/fridge/${global.USERID}`;
+    axios.get(url)
+      .then(res => {
+        this.setState({
+          data: res.data,
+          loading: false,
+          refreshing: false,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-      // Render a header?
-renderHeader = () =>
-<Text style={[styles.label, styles.sectionHeader]}>{this.state.testprop}</Text>
+  handleRefresh = () => {
+    this.setState({
+      refreshing: true,
+    }, () => {
+      this.getData();
+    });
+  };
 
-// Render a footer?
-renderFooter = () =>
-<Text style={[styles.label, styles.sectionHeader]}></Text>
+refreshFunction = () => {
+  this.getData();
+}
 
-// Show this when data is empty
-renderEmpty = () =>
-<Text style={styles.label}> - Nothing to See Here - </Text>
+navIngredients = (item) => {
+  this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item, refresh: this.refreshFunction });
+}
 
-renderSeparator = () =>
-<Text style={styles.label}></Text>
+navAddIngredients = () => {
+  this.props.navigation.navigate('AddIngredientScreen', { fridge: this.state.data, refresh: this.refreshFunction });
+}
 
-// The default function if no Key is provided is index
-// an identifiable key is important if you plan on
-// item reordering.  Otherwise index is fine
-keyExtractor = (item, index) => index
+renderIngredient = ({ item }) => {
+  return (
+    <IngredientRow
+      title={item.title}
+      qty={item.qty}
+      onPress={() => this.navIngredients(item)}
+    />
+  );
+}
 
-// How many items should be kept im memory as we scroll?
-oneScreensWorth = 20
-
-
-      // renderIngredientModal = (item) => {  
-      // }
-            
-      navIngredients = (item) => {
-        this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item });
-      }
-
-      renderIngredient = ({item}) => {
-        return (
-          <IngredientRow 
-          title={item.title}
-          qty={item.qty}
-          onPress={() => this.navIngredients(item)}
-          />
-        );
-      }
-
-
-    render() {
-
-        if (this.state.loading) {
-            return (
-              <View style={styles.container}>
-                <ActivityIndicator size="large"/>
-              </View>
-            );
-          }
-
-        return (
-                <FlatList
-                data={this.state.data}
-                renderItem={this.renderIngredient}
-                keyExtractor={this.keyExtractor}
-                initialNumToRender={this.oneScreensWorth}
-                ListHeaderComponent={this.renderHeader}
-                ListFooterComponent={this.renderFooter}
-                ListEmptyComponent={this.renderEmpty}
-                ItemSeparatorComponent={this.renderSeparator}
-                />
-        );
-    }
+render() {
+  if (this.state.loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large"/>
+      </View>
+    );
+  }
+  return (
+    <View style={styles.listScreen}>
+      <Button borderRadius={5} backgroundColor="lightskyblue" onPress={() => this.navAddIngredients()} title="Add Ingredient"/>
+      <FlatList
+        disableVirtualization={false}
+        legacyImplementation={true} // Makes it super fast
+        enableEmptySections // Disables warning
+        removeClippedSubviews={false} // Fixes not rendering witout scroll
+        data={this.state.data}
+        renderItem={this.renderIngredient}
+        keyExtractor={(item, index) => index}
+        onRefresh={this.handleRefresh}
+        refreshing={this.state.refreshing}
+      />
+    </View>
+  );
+}
 }
 
 export default Fridge;
-
-
-
-
-
-/******** Previous Code *********
-
-    // onButtonPress = () => {
-    //     this.setState({
-    //       testprop: 'button can set state'
-    //     });
-    //     console.log(this.state.testprop);
-    //   }
-
-    //   onPlusButtonPress = () => {
-    //     // this.setState({
-    //     //   testprop: 'button can PLUS'
-    //     // });
-    //     //console.log(this.state.testprop);
-    //     console.log('testtest');
-    //   }
-
-    // onMinusButtonPress = () => {
-    //     // this.setState({
-    //     //   testprop: 'button can MINUS'
-    //     // });
-    //     //console.log(this.state.testprop);
-    //     this.console.log('testtestminus');
-    //   }
-      
-    // goToChangeQty = (ingredient) => {
-    //     NavigationActions.view2(ingredient);
-    //     console.log('Navigation router run...');
-    // }
-
-
-
-
-        //`renderRow` function. How each cell/row should be rendered
-    //<Text style={styles.label}>{item.description}</Text>
-    renderRow ({item}) {
-      return (
-
-        <ListItem 
-        button 
-        onPress={() => this.navIngredients(item)}
-        roundAvatar
-        title={item.title}
-        subtitle={`Quantity: ${item.qty}`}
-        avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
-        // containerStyle={{ borderBottomWidth: 0 }}
-        // buttonGroup
-        // buttonGroupButtons = {['+', '-']}
-        // buttonGroupContainerStyle = {{marginRight: 0, marginLeft: 0, height: 30, width: 66, backgroundColor: 'white', borderColor: '#007aff', borderRadius: 5}}
-        // buttonGroupContainerBorderRadius = {3}
-        // buttonGroupTextStyle = {{color: '#007aff'}}
-        // buttonGroupButtonStyle = {{width: 32}}
-        // buttonGroupSelectedBackgroundColor = {'#007aff'}
-        // buttonGroupSelectedTextStyle = {{color: 'black'}}
-        // buttonGroupInnerBorderStyle = {{color: '#0071ff'}}
-        // buttonGroupComponent = {TouchableHighlight}
-        // buttonGroupActiveOpacity = {0.9}
-        // buttonGroupUnderlayColor = {'#D9EBFF'}
-        //buttonGroupDisableSelected
-        //buttonGroupSelectedIndex = {selectedIndex}
-        //onButtonGroupChange = {onButtonGroupChange}
-        //hideChevron
-      ///>
-
-
-        // <View style={styles.row}>
-        //   <Text style={styles.boldLabel}>{item.title}</Text>
-        //   <Text style={styles.label}>{item.qty}</Text>
-        //   <Button
-        //   onPress={this.onButtonPress}
-        //   title="+/-"
-        //   color="#841584"
-        //   accessibilityLabel="This manipulates the qty"
-        //   />
-        // </View>
-      )
-    }
-
-
-    //`renderRow` function. How each cell/row should be rendered
-    //<Text style={styles.label}>{item.description}</Text>
-    renderRow ({item}) {
-        return (
-        <ListItem 
-          button 
-          onPress={this.props.navigation.navigate('FridgeIngredientScreen', { ingredientItem: item })}
-          roundAvatar
-          title={item.title}
-          subtitle={`Quantity: ${item.qty}`}
-          avatar={{ uri: 'https://via.placeholder.com/70x70.jpg' }}
-        />
-      );
-    }
-
-
-
-
-
-
-
-    */
