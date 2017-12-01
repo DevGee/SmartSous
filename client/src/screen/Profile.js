@@ -56,7 +56,7 @@ class Profile extends Component {
 
   componentDidMount() {
     this.getProfileInfo();
-    this.intervalID = setInterval(() => this.getAccInfo(), 1000);
+    this.intervalID = setInterval(() => this.getAccInfo(), 3000);
     this.getAccInfo();
   }
 

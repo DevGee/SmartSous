@@ -89,7 +89,7 @@ class FridgeCommIngredient extends Component {
   }
 
   deleteFood = () => {
-    const url = 'http://198.199.98.149:5000/api/fridge_delete';
+    const url = 'http://198.199.98.149:5000/api/comm_fridge_delete';
     axios.put(url,
       {
         userID: global.USERID,
