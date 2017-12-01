@@ -1,7 +1,7 @@
 # SmartSous
 
-![Alt text](/../screenshots/screenshots/login.png?raw=true)
-![Alt text](/../screenshots/screenshots/home.png?raw=true)
+![Alt text](/../screenshots/screenshots/login.PNG)
+![Alt text](/../screenshots/screenshots/home.PNG?raw=true)
 ![Alt text](/../screenshots/screenshots/profile.png?raw=true)
 ![Alt text](/../screenshots/screenshots/recipes.png?raw=true)
 ![Alt text](/../screenshots/screenshots/recipedetail.png?raw=true)
