@@ -1,6 +1,13 @@
 # SmartSous
 
-![Alt text](/../screenshots/screenshots/login.PNG?raw=true =219x547)
+## Features
+  - Facebook login and authentication
+  - Input items into user's fridge
+  - Search for recipes to cook
+  - Make, share, and join a fridge with other people
+  - Scan barcodes for food to put into fridge
+
+![Alt text](/../screenshots/screenshots/login.PNG?raw=true)
 ![Alt text](/../screenshots/screenshots/home.PNG?raw=true)
 ![Alt text](/../screenshots/screenshots/profile.PNG?raw=true)
 ![Alt text](/../screenshots/screenshots/recipes.PNG?raw=true)
