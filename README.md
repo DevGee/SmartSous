@@ -1,6 +1,6 @@
 # SmartSous
 
-![Alt text](/../screenshots/screenshots/login.PNG?raw=true)
+![Alt text](/../screenshots/screenshots/login.PNG?raw=true =219x547)
 ![Alt text](/../screenshots/screenshots/home.PNG?raw=true)
 ![Alt text](/../screenshots/screenshots/profile.PNG?raw=true)
 ![Alt text](/../screenshots/screenshots/recipes.PNG?raw=true)
